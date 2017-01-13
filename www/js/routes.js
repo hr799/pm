@@ -44,6 +44,29 @@ angular.module('app.routes', [])
   })
 
 
+  //Add new routers
+  .state('tabsController.addProject', {
+    url: '/addProject',
+    views: {
+      'tab2': {
+        templateUrl: 'templates/addProject.html',
+        controller: 'addProjectCtrl'
+      }
+    }
+  })
+
+  //add new routers
+  .state('tabsController.feedbackDetail', {
+    url: '/feedbackDetail',
+    views: {
+      'tab2': {
+        templateUrl: 'templates/feedbackDetail.html',
+        controller: 'feedbackDetailCtrl'
+      }
+    }
+  })
+
+
   .state('tabsController.feedback', {
     url: '/page4',
     views: {
