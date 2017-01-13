@@ -30,6 +30,20 @@ angular.module('app.routes', [])
     }
   })
 
+
+
+  //Add new routers
+  .state('tabsController.projectDetail', {
+    url: '/projectDetail',
+    views: {
+      'tab2': {
+        templateUrl: 'templates/projectDetail.html',
+        controller: 'projectDetailCtrl'
+      }
+    }
+  })
+
+
   .state('tabsController.feedback', {
     url: '/page4',
     views: {
@@ -63,6 +77,8 @@ angular.module('app.routes', [])
     templateUrl: 'templates/addNewProject.html',
     controller: 'addNewProjectCtrl'
   })
+
+
 
 $urlRouterProvider.otherwise('/page5')
 
