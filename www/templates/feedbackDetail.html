@@ -1,73 +1,68 @@
-<ion-view title="Feedback Detail" id="feedbackDetail">
+<ion-header-bar align-title="center" class="bar-stable">
+    <div class="buttons">
+        <button class="button button-icon button-clear ion-ios-arrow-back" ng-click="$ionicGoBack()"></button>
+    </div>
+    <div class="h1 title login-title" >Feedback</div>
+    <div class="buttons">
+        <button class="button button-icon button-clear ion-edit"></button>
+    </div>
+</ion-header-bar>
 
-	<ion-nav-back-button class="button-clear">
-    <i class="ion-ios-arrow-back"></i>
-  	</ion-nav-back-button>
-
-	<ion-nav-buttons side="right" class="has-header">
-    <button class="button button-icon icon ion-edit" ng-click=""></button>
- 	 </ion-nav-buttons>
-
+<ion-view title="Feedback Detail">
   <ion-content>
-    
   	<div class="list" >
-  		<div style=";background: lightgrey; width: 100%; height: 100%; position: relative;">
-  			<div style="width: 100%; height: 70px; background: #3b4047; ">
-          <img src="img/back.png" style="position: absolute; width: 35px; height: 35px; top: 15px; left: 10px;">
-          <img src="img/edit.png" style="position: absolute; width: 35px; height: 35px; top: 15px; right: 15px;">
-  			   
+  		<div style="width: 100%; height: 100%; position: relative;">
+        <div style="width: 100%; min-height: 55px;height: auto; border-bottom: 1px solid lightgrey; background: white;padding-left: 11px; font-size: 15px;">
+            <div style="width: 30%; display: inline-block;  margin-top: 10px; font-weight: bold;min-height: 55px;height: auto;">Project</div>
+            <div style="width: 70%; display: inline-block; float: right; margin-top: 10px;min-height: 55px;height: auto;">Deloitte Performance Management</div>
         </div>
 
-        <div style="width: 100%; height: 100%; border-bottom: 1px solid lightgrey; background: white;padding-left: 11px; display: inline-block;">
-            <h4 style="width: 30%; display: inline-block;">Project</h4>
-            <p style="width: 70%; display: inline-block;">Deloitte Performance Management</p>
+          <div style="width: 100%; height: 50px; border-bottom: 1px solid lightgrey; background: white;padding-left: 11px; font-size: 15px;">
+            <div style="width: 30%; display: inline-block;  margin-top: 10px; font-weight: bold;">Coach</div>
+            <div style="width: 70%; display: inline-block; float: right; margin-top: 5px;"><img src="img/Zuckerberg.png" style="width: 40px; height: 40px; "></div>
           </div>
 
-          <div style="width: 100%; height: 100%; border-bottom: 1px solid lightgrey; background: white;padding-left: 11px; ">
-            <h4 style="width: 30%; display: inline-block;">Coach</h4>
-            <img src="img/Zuckerberg.png" style="width: 50px; height: 50px; display: inline-block;">
-          </div>
-
-          <div style="width: 100%; height: 100%; border-bottom: 1px solid lightgrey; background: white;padding-left: 11px; ">
-            <h4>Feedback Time</h4>
-            <p>14/01/2017</p>
+          <div style="width: 100%; height: 50px; border-bottom: 1px solid lightgrey; background: white;padding-left: 11px; font-size: 15px;">
+            <div style="width: 30%; display: inline-block;  margin-top: 10px; font-weight: bold;">Time</div>
+            <div style="width: 70%; display: inline-block; float: right; margin-top: 10px;">14/01/2017</div>
           </div>
         
         
 
-        <div style="width: 100%; height: 100%; background: white; border-top: 1px solid lightgrey; padding-left: 11px; ">
-          <div style="width: 100%; height: 100%; border-bottom: 1px solid lightgrey;">
+        
+         <!--  <div style="width: 100%; height: 100%; border-bottom: 1px solid lightgrey;"> -->
             
-          <div style="width: 100%; height: 100%; border-bottom: 1px solid lightgrey;">
-            <h4>Target member</h4>
-            <div style="white-space: nowrap;overflow-x: scroll;">
+          <div style="width: 100%; height: 100px; border-bottom: 1px solid lightgrey; padding-left: 11px;">
+            <div style="font-size: 15px; font-weight: bold; margin-top: 10px;">Target member</div>
+            <div style="white-space: nowrap;overflow-x: scroll; margin-top: 10px; margin-bottom: 10px;">
               <img src="img/stevejobs.png" style="width: 40px; height: 40px; border-radius: 20px;margin-right: 6px;">
               <img src="img/larryPage.png" style="width: 40px; height: 40px; border-radius: 20px;margin-right: 6px;">
               <img src="img/Zuckerberg.png" style="width: 40px; height: 40px; border-radius: 20px;margin-right: 6px;">
               <img src="img/billgate.jpg" style="width: 40px; height: 40px; border-radius: 20px;margin-right: 6px;">
-
-              
-
+              <img src="img/stevejobs.png" style="width: 40px; height: 40px; border-radius: 20px;margin-right: 6px;">
+              <img src="img/larryPage.png" style="width: 40px; height: 40px; border-radius: 20px;margin-right: 6px;">
+              <img src="img/Zuckerberg.png" style="width: 40px; height: 40px; border-radius: 20px;margin-right: 6px;">
+              <img src="img/billgate.jpg" style="width: 40px; height: 40px; border-radius: 20px;margin-right: 6px;">
             </div>
-            
           </div>
 
+          <div style="width:100%; height:auto; padding-left: 11px; border-bottom: 1px solid lightgrey;">
           <h4>Feedback Detail</h4>
             <p >This article is about mechanistic circular causality. For performance feedback, see performance appraisal. For educational feedback, see corrective feedback. For other uses, see Feedback (disambiguation).
 
-Feedback exists between two parts when each affects the other.[1](p53)
+                Feedback exists between two parts when each affects the other.[1](p53)
 
-A feedback loop where all outputs of a process are available as causal inputs to that process
-Feedback occurs when outputs of a system are routed back as inputs as part of a chain of cause-and-effect that forms a circuit or loop.</p>
+                A feedback loop where all outputs of a process are available as causal inputs to that process
+                Feedback occurs when outputs of a system are routed back as inputs as part of a chain of cause-and-effect that forms a circuit or loop.</p>
           </div>
           
 
-          <div style="width: 100%; height: 100%; border-bottom: 1px solid lightgrey; position: relative; top: 12px;">
+          <div style="width: 100%; height: 50px; position: relative; top: 10px; padding-left: 11px;">
            <!--  <h4 style="display: inline-block; position: relative;">Type</h4> -->
-            <img src="img/good.png" style="width: 50px; height: 50px;">
+            <div style="text-align: center;"><img src="img/good.png" style="width: 40px; height: 40px; "></div>
           </div>
 
-        </div>
+        
 
   		</div>
   	</div>

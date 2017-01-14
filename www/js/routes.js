@@ -7,103 +7,97 @@ angular.module('app.routes', [])
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
   $stateProvider
-    
-  
-
-      .state('tabsController.home', {
-    url: '/page2',
+  .state('tab', {
+    url: '/tab',
+    templateUrl: 'templates/tabsController.html',
+    abstract:true
+  })
+  .state('tab.home', {
+    url: '/home',
     views: {
-      'tab1': {
+      'home': {
         templateUrl: 'templates/home.html',
-        controller: 'homeCtrl'
+        controller: 'homeCtrl',
       }
     }
   })
-
-  .state('tabsController.project', {
-    url: '/page3',
+  .state('tab.project', {
+    url: '/project',
     views: {
-      'tab2': {
+      'project': {
         templateUrl: 'templates/project.html',
         controller: 'projectCtrl'
       }
     }
   })
-
-
-
-  //Add new routers
-  .state('tabsController.projectDetail', {
-    url: '/projectDetail',
-    views: {
-      'tab2': {
-        templateUrl: 'templates/projectDetail.html',
-        controller: 'projectDetailCtrl'
+    .state('tab.projectDetail', {
+      url: '/projectDetail/:id',
+      views: {
+        'project': {
+          templateUrl: 'templates/projectDetail.html',
+          controller: 'projectDetailCtrl'
+        }
       }
-    }
-  })
-
-
-  //Add new routers
-  .state('tabsController.addProject', {
-    url: '/addProject',
-    views: {
-      'tab2': {
-        templateUrl: 'templates/addProject.html',
-        controller: 'addProjectCtrl'
+    })
+    .state('tab.addProject', {
+      url: '/addProject',
+      views: {
+        'project': {
+          templateUrl: 'templates/addProject.html',
+          controller: 'addProjectCtrl'
+        }
       }
-    }
-  })
-
-  //add new routers
-  .state('tabsController.feedbackDetail', {
-    url: '/feedbackDetail',
-    views: {
-      'tab2': {
-        templateUrl: 'templates/feedbackDetail.html',
-        controller: 'feedbackDetailCtrl'
+    })
+    .state('tab.feedbackList', {
+      url: '/feedbackList',
+      views: {
+        'project': {
+          templateUrl: 'templates/feedbackList.html',
+          controller: 'feedbackListCtrl'
+        }
       }
-    }
-  })
+    })
 
-
-  .state('tabsController.feedback', {
-    url: '/page4',
+  .state('tab.feedback', {
+    url: '/feedback',
     views: {
-      'tab3': {
+      'feedback': {
         templateUrl: 'templates/feedback.html',
         controller: 'feedbackCtrl'
       }
     }
   })
-
-  .state('tabsController', {
-    url: '/page1',
-    templateUrl: 'templates/tabsController.html',
-    abstract:true
-  })
+    .state('tab.feedbackDetail', {
+      url: '/feedbackDetail/:id',
+      views: {
+        'feedback': {
+          templateUrl: 'templates/feedbackDetail.html',
+          controller: 'feedbackDetailCtrl'
+        }
+      }
+    })
 
   .state('login', {
-    url: '/page5',
+    url: '/login',
     templateUrl: 'templates/login.html',
     controller: 'loginCtrl'
   })
 
   .state('signUp', {
-    url: '/page7',
+    url: '/signUp',
     templateUrl: 'templates/signUp.html',
     controller: 'signUpCtrl'
   })
 
   .state('addNewProject', {
-    url: '/page8',
+    url: '/addNewProject',
     templateUrl: 'templates/addNewProject.html',
     controller: 'addNewProjectCtrl'
   })
 
 
 
-$urlRouterProvider.otherwise('/page5')
+$urlRouterProvider.otherwise('/login')
 
   
 
