@@ -92,9 +92,15 @@ function ($scope, $stateParams) {
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams) {
      $scope.user = {email:"", psw:""};
-    $scope.login = function() {
-        console.log($scope.user.email+$scope.user.psw);
-        // location.href = "#tab/home";
+     $scope.login = function() {
+        firebase.auth().signInWithEmailAndPassword($scope.user.email, $scope.user.psw).then(function(msg) {
+            // Login Success
+            console.log(msg);
+            location.href = "#tab/home";
+        }, function(error){
+            console.log(error);
+        });
+
     };
 
 }])
@@ -107,6 +113,18 @@ function ($scope, $stateParams) {
     $scope.signUp = function() {
         console.log($scope.user.email+$scope.user.psw+$scope.user.name);
         // location.href = "#tab/home";
+        firebase.auth().createUserWithEmailAndPassword($scope.user.email, $scope.user.psw).then(function(msg) {
+          // Handle Errors here.
+          console.log(msg);
+          alert("User created!");
+          /*location.href = "#tab/login";*/
+            }, function(error){
+                console.log(error);
+          var errorCode = error.code;
+          var errorMessage = error.message;
+  // ...
+        });
+        
     };
 
 }])
