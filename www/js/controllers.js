@@ -91,7 +91,11 @@ function ($scope, $stateParams) {
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams) {
-
+     $scope.user = {email:"", psw:""};
+    $scope.login = function() {
+        console.log($scope.user.email+$scope.user.psw);
+        // location.href = "#tab/home";
+    };
 
 }])
    
@@ -99,7 +103,11 @@ function ($scope, $stateParams) {
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams) {
-
+    $scope.user = {email:"", psw:"", name:""};
+    $scope.signUp = function() {
+        console.log($scope.user.email+$scope.user.psw+$scope.user.name);
+        // location.href = "#tab/home";
+    };
 
 }])
    
