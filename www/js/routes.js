@@ -89,11 +89,11 @@ angular.module('app.routes', [])
     controller: 'signUpCtrl'
   })
 
-  .state('addNewProject', {
+ /* .state('addNewProject', {
     url: '/addNewProject',
     templateUrl: 'templates/addNewProject.html',
     controller: 'addNewProjectCtrl'
-  })
+  })*/
 
 
 
