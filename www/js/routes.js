@@ -95,6 +95,11 @@ angular.module('app.routes', [])
     controller: 'addNewProjectCtrl'
   })*/
 
+  .state('myProfile', {
+    url: '/myProfile',
+    templateUrl: 'templates/myProfile.html',
+    controller: 'myProfileCtrl'
+  })
 
 
 $urlRouterProvider.otherwise('/login')

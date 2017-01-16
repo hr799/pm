@@ -45,6 +45,16 @@ function ($scope, $stateParams) {
 
 }])
 
+
+//add my profile controller.
+.controller('myProfileCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+// You can include any angular dependencies as parameters for this function
+// TIP: Access Route Parameters for your page via $stateParams.parameterName
+function ($scope, $stateParams) {
+
+
+}])
+
 //add new controller.
 .controller('addProjectCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
@@ -117,7 +127,7 @@ function ($scope, $stateParams) {
           // Handle Errors here.
           console.log(msg);
           alert("User created!");
-          /*location.href = "#tab/login";*/
+          location.href = "#tab/login";
             }, function(error){
                 console.log(error);
           var errorCode = error.code;
