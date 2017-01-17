@@ -5,15 +5,15 @@
 
     <div class="h1 title" >Name</div>
     <div class="buttons">
-        <button class="button button-icon button-clear ion-checkmark"></button>
+        <button class="button button-icon button-clear ion-checkmark" ng-click="saveName()"></button>
     </div>
 </ion-header-bar>
 
 
 <ion-view title="Edit Profile Name">
-	<ion-content class="has-header">
-		<div style="width:100%; height:100%; background: red;">
-			
+	<ion-content class="has-header" style="background: #f2f3f4;">
+		<div style="width:100%; height:45px; background: white; margin-top: 15px;">
+			<input id="newName" type="text" style="font-size: 15px; margin-left: 15px; ">
 		</div>	
 	</ion-content>
 </ion-view>
