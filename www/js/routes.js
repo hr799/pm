@@ -55,6 +55,12 @@ angular.module('app.routes', [])
         controller: 'addFeedbackCtrl'
       })
 
+    .state('about', {
+        url: '/about',
+        templateUrl: 'templates/about.html',
+        controller: 'aboutCtrl'
+      })
+
 
 
 
