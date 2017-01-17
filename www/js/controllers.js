@@ -68,10 +68,10 @@ function ($scope, $stateParams) {
 
     //read process
     $scope.readUserData = function(){
-        firebase.database().ref('/users/' + userId).once('value').then(function(res)){
+        firebase.database().ref('/users/' + userId).once('value').then(function(res){
             $scope.user.name = res.val().name;
             $scope.user = res.val();
-        }
+        });
     }
 
 
@@ -80,6 +80,15 @@ function ($scope, $stateParams) {
 
 //add about controller
 .controller('aboutCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+// You can include any angular dependencies as parameters for this function
+// TIP: Access Route Parameters for your page via $stateParams.parameterName
+function ($scope, $stateParams) {
+
+
+}])
+
+//add editProfileName controller
+.controller('editProfileNameCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams) {

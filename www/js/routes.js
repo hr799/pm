@@ -62,6 +62,13 @@ angular.module('app.routes', [])
       })
 
 
+    .state('editProfileName', {
+        url: '/editProfileName',
+        templateUrl: 'templates/editProfileName.html',
+        controller: 'editProfileNameCtrl'
+      })
+
+
 
 
     .state('tab.feedbackList', {
