@@ -1,7 +1,74 @@
-<ion-header-bar align-title="center" class="bar-stable" style="background: #3b4047;">
+<ion-header-bar align-title="center" class="bar-stable">
     <div class="buttons">
-        <button class="button button-icon button-light ion-ios-arrow-left" style="color:white" ng-click="$ionicGoBack()"></button>
-        </button>
+        <button class="button button-icon button-clear ion-ios-arrow-back"></button>
     </div>
-    <div class="h1 title login-title" style="color:white">Add Project</div>
+
+    <div class="h1 title" >Add Feedback</div>
+    <div class="buttons ">
+        <button class="button button-icon button-clear ion-checkmark-round" side="secondary"></button>
+    </div>
 </ion-header-bar>
+
+<ion-view title="Add Feedback">
+	<ion-content class="has-header">
+		<div style="width: 100%;height: 100%; padding-left: 11px;">
+			<div style="width: 100%;height: 50px; border-bottom: 1px solid lightgray;">
+				<div style="width: 30%; height: 100%; float: left;">
+					<h4 style="margin-top: 15px; font-size: 15px; font-weight: bold;">Name</h4>
+				</div>
+				<div style="width: 70%; height: 50px; float: right;">
+					<input type="text" style="">
+				</div>
+			</div>
+
+			<div style="width: 100%;height: 50px; border-bottom: 1px solid lightgray;">
+				<div style="width: 30%; height: 100%; float: left;">
+					<h4 style="margin-top: 15px; font-size: 15px; font-weight: bold;">Coach</h4>
+				</div>
+				<div style="width: 70%; height: 50px; float: right;">
+					<input type="text" style="">
+				</div>
+			</div>
+
+			<div style="width: 100%;height: 50px; border-bottom: 1px solid lightgray;">
+				<div style="width: 30%; height: 100%; float: left;">
+					<h4 style="margin-top: 15px; font-size: 15px; font-weight: bold;">Date</h4>
+				</div>
+				<div style="width: 70%; height: 50px; float: right;">
+					<input type="date" style="">
+				</div>
+			</div>
+
+			<div style="width: 100%;height: 100px; border-bottom: 1px solid lightgray;">
+				<div style="width: 100%; height: 40px;">
+					<h4 style="margin-top: 15px; font-size: 15px; font-weight: bold;">Member</h4>
+				</div>
+				<div style="width: 100%; height: 70px;white-space: nowrap;overflow-x: scroll;">
+					
+		              <img src="img/stevejobs.png" style="width: 40px; height: 40px; border-radius: 20px;margin-right: 6px;">
+		              <img src="img/larryPage.png" style="width: 40px; height: 40px; border-radius: 20px;margin-right: 6px;">
+		              <img src="img/Zuckerberg.png" style="width: 40px; height: 40px; border-radius: 20px;margin-right: 6px;">
+		              <img src="img/billgate.jpg" style="width: 40px; height: 40px; border-radius: 20px;margin-right: 6px;">
+		              <img src="img/stevejobs.png" style="width: 40px; height: 40px; border-radius: 20px;margin-right: 6px;">
+		              <img src="img/larryPage.png" style="width: 40px; height: 40px; border-radius: 20px;margin-right: 6px;">
+		              <img src="img/Zuckerberg.png" style="width: 40px; height: 40px; border-radius: 20px;margin-right: 6px;">
+		              <img src="img/billgate.jpg" style="width: 40px; height: 40px; border-radius: 20px;margin-right: 6px;">
+            
+				</div>
+			</div>
+
+			<div style="width: 100%;height: auto; border-bottom: 1px solid lightgray; margin-right: 10px;">
+				<div style="width: 100%; height: 40px;">
+					<h4 style="margin-top: 15px; font-size: 15px; font-weight: bold;">Detail</h4>
+				</div>
+				<div style="width: 100%; height:100px; ">
+					<textarea style="height:100%; width: 100%;margin-right: 10px;"></textarea>
+				</div>
+			</div>
+
+
+
+
+		</div>
+	</ion-content>
+</ion-view>

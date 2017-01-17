@@ -48,6 +48,16 @@ angular.module('app.routes', [])
         }
       }
     })
+
+    .state('addFeedback', {
+        url: '/addFeedback',
+        templateUrl: 'templates/addFeedback.html',
+        controller: 'addFeedbackCtrl'
+      })
+
+
+
+
     .state('tab.feedbackList', {
       url: '/feedbackList',
       views: {
