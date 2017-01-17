@@ -51,6 +51,29 @@ function ($scope, $stateParams) {
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams) {
+    //Get a reference to the database service
+    var database = firebase.database();
+    var userId = firebase.auth().currentUser.uid;
+    $scope.user = {
+        name : "",
+        imageUrl : "",
+        coach : "",
+        uid : userId
+    };
+
+    //Write process
+    $scope.writeUserData = function(){
+        firebase.database().ref('users/' + userId).set($scope.user);
+    }
+
+    //read process
+    $scope.readUserData = function(){
+        firebase.database().ref('/users/' + userId).once('value').then(function(res)){
+            $scope.user.name = res.val().name;
+            $scope.user = res.val();
+        }
+    }
+
 
 
 }])
