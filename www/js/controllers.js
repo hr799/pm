@@ -51,28 +51,36 @@ function ($scope, $stateParams) {
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams) {
-    //Get a reference to the database service
-    var database = firebase.database();
-    var userId = firebase.auth().currentUser.uid;
-    $scope.user = {
-        name : "",
-        imageUrl : "",
-        coach : "",
-        uid : userId
-    };
+    $scope.$on('$ionicView.afterEnter', function(){
+        //Get a reference to the database service
+        var database = firebase.database();
 
-    //Write process
-    $scope.writeUserData = function(){
-        firebase.database().ref('users/' + userId).set($scope.user);
-    }
+        //check if login successful, if not, return to login page.
+        if(!firebase.auth().currentUser){
+            location.href = "#/login";
+            return;
+        }
+        var userId = firebase.auth().currentUser.uid;
+        $scope.user = {
+            name : localStorage.getItem("username"),
+            imageUrl : "",
+            coach : "",
+            uid : userId
+        };
+    });
 
-    //read process
-    $scope.readUserData = function(){
-        firebase.database().ref('/users/' + userId).once('value').then(function(res){
-            $scope.user.name = res.val().name;
-            $scope.user = res.val();
-        });
-    }
+        //Write process
+        $scope.writeUserData = function(){
+            firebase.database().ref('users/' + userId).set($scope.user);
+        }
+
+        //read process
+        $scope.readUserData = function(){
+            firebase.database().ref('/users/' + userId).once('value').then(function(res){
+                $scope.user.name = res.val().name;
+                $scope.user = res.val();
+            });
+        }
 
 
 
@@ -92,12 +100,11 @@ function ($scope, $stateParams) {
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams) {
+    $scope.user = {};
+    $scope.user.name = localStorage.getItem("username");
     $scope.updateName = function(){
-        // console.log($newName);
-        var storage= window.localStorage;
-        storage.a = storage.getItem("mingzi");
-        storage.b = 2;
-
+        localStorage.setItem("username", $scope.user.name);
+        location.href="#/myProfile";
     }
 }])
 
