@@ -92,11 +92,13 @@ function ($scope, $stateParams) {
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams) {
+    $scope.updateName = function(){
+        // console.log($newName);
+        var storage= window.localStorage;
+        storage.a = storage.getItem("mingzi");
+        storage.b = 2;
 
-    $scope.saveName = function(){
-        document.getElementById("profileName").innerHTML = localStorage.getItem("newName");
-    };
-
+    }
 }])
 
 //add new controller.
