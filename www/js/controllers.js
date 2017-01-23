@@ -178,27 +178,60 @@ function ($scope, $stateParams) {
 
 }])
    
-.controller('signUpCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('signUpCtrl', ['$scope', '$stateParams', '$ionicPopup',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
+function ($scope, $stateParams, $ionicPopup) {
     $scope.user = {email:"", psw:"", name:""};
     $scope.signUp = function() {
         console.log($scope.user.email+$scope.user.psw+$scope.user.name);
-        // location.href = "#tab/home";
-        firebase.auth().createUserWithEmailAndPassword($scope.user.email, $scope.user.psw).then(function(msg) {
-          // Handle Errors here.
-          console.log(msg);
-          alert("User created!");
-          location.href = "#tab/login";
-            }, function(error){
-                console.log(error);
-          var errorCode = error.code;
-          var errorMessage = error.message;
-  // ...
-        });
-        
+
+        var psw = $scope.user.psw;
+
+            if(psw.length < 6){
+                var alertPopup = $ionicPopup.alert({
+                    title:'Weak Password',
+                    template:'Password should not be less than 6 characters'
+                })
+            }else if(psw.length >25){
+                var alertPopup = $ionicPopup.alert({
+                    title:'Invalid Password',
+                    template:'Password should not exceed 25 characters'
+                })
+
+            }else if(psw.search(/[A-Z]/) <0){
+                var alertPopup = $ionicPopup.alert({
+                    title:'Invalid Password',
+                    template:'Password should contain at lease 1 uppercase'
+                })
+            }else{
+                firebase.auth().createUserWithEmailAndPassword($scope.user.email, $scope.user.psw).then(function(msg) {
+                  // Handle Errors here.
+                  
+                  console.log(msg);
+                  alert("User created!");
+                  location.href = "#tab/login";
+                    }, function(error){
+                        console.log(error);
+                  var errorCode = error.code;
+                  var errorMessage = error.message;
+                    if(errorCode=='auth/email-already-in-use'){
+                        var alertPopup = $ionicPopup.alert({
+                        title:'Invalid email',
+                        template:'This email address is already in use'
+                        })
+                    }else if(errorCode=="auth/invalid-email"){
+                        var alertPopup = $ionicPopup.alert({
+                        title:'Invalid email',
+                        template:'The email address is badly formatted'
+                        })
+                    }
+                });
+            }
     };
+
+
+    
 
 }])
    

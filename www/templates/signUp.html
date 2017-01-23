@@ -1,3 +1,13 @@
+<head>
+  <style>
+    .dm-tips{
+      width:200px;
+      height: 44px;
+      background-color: white;
+    }
+  </style>>
+</head>
+
 <ion-view title="SignUp" hide-nav-bar="true" cache-view="false" nav-transition="none" id="page7" style="background-color:#0079BF;">
   <ion-content padding="true" class="manual-ios-statusbar-padding" scroll="false">
     <form id="signUp-form3" class="list center-form">
@@ -15,7 +25,7 @@
         </label>
         <label class="item item-input" id="signUp-input7">
           <span class="input-label">Password</span>
-          <input type="password" ng-model="user.psw" placeholder="">
+          <input type="password" ng-model="user.psw" placeholder="" required>
         </label>
       </ion-list>
       <div class="spacer" style="height: 40px;"></div>
