@@ -188,7 +188,7 @@ function ($scope, $stateParams, $ionicPopup) {
             }else if(errorCode=="auth/invalid-email"){
                 $ionicPopup.alert({
                     title:'format error',
-                    template:'The password address is badly formatted'
+                    template:'The email address is badly formatted'
                 })
             }
         });
