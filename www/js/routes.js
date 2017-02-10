@@ -30,6 +30,20 @@ angular.module('app.routes', [])
       }
     }
   })
+
+
+  //add notification tab
+  .state('tab.notification', {
+    url: '/notification',
+    views: {
+      'notification': {
+        templateUrl: 'templates/notification.html',
+        controller: 'notificationCtrl'
+      }
+    }
+  })
+
+
     .state('tab.projectDetail', {
       url: '/projectDetail/:id',
       views: {
@@ -61,11 +75,11 @@ angular.module('app.routes', [])
         controller: 'aboutCtrl'
       })
 
-    .state('notification', {
+    /*.state('notification', {
         url: '/notification',
         templateUrl: 'templates/notification.html',
         controller: 'notificationCtrl'
-      })
+      })*/
 
 
     .state('editProfileName', {
