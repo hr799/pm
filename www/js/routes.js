@@ -61,6 +61,12 @@ angular.module('app.routes', [])
         controller: 'aboutCtrl'
       })
 
+    .state('notification', {
+        url: '/notification',
+        templateUrl: 'templates/notification.html',
+        controller: 'notificationCtrl'
+      })
+
 
     .state('editProfileName', {
         url: '/editProfileName',
