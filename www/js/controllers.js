@@ -4,7 +4,7 @@ angular.module('app.controllers', [])
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams) {
-    var pages = "#/tab/home+#/tab/feedback+#/tab/project";
+    var pages = "#/tab/home+#/tab/notification+#/tab/project";
     $scope.$on('$ionicView.afterEnter', function() {
         if (pages.indexOf(location.hash) > -1) {
             var tabs =document.getElementsByTagName('ion-tabs');
@@ -22,7 +22,7 @@ function ($scope, $stateParams) {
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams) {
-    var pages = "#/tab/home+#/tab/feedback+#/tab/project";
+    var pages = "#/tab/home+#/tab/notification+#/tab/project";
     $scope.$on('$ionicView.afterEnter', function() {
         if (pages.indexOf(location.hash) > -1) {
             var tabs =document.getElementsByTagName('ion-tabs');
@@ -35,6 +35,28 @@ function ($scope, $stateParams) {
         angular.element(tabs).addClass("tabs-item-hide");
     });
 }])
+
+
+//add notificationCtrl
+.controller('notificationCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+// You can include any angular dependencies as parameters for this function
+// TIP: Access Route Parameters for your page via $stateParams.parameterName
+function ($scope, $stateParams) {
+    var pages = "#/tab/home+#/tab/notification+#/tab/project";
+    $scope.$on('$ionicView.afterEnter', function() {
+        if (pages.indexOf(location.hash) > -1) {
+            var tabs =document.getElementsByTagName('ion-tabs');
+            angular.element(tabs).removeClass("tabs-item-hide");
+        }
+    });
+    $scope.$on('$ionicView.afterLeave', function() {
+        if (pages.indexOf(location.hash) > -1) return;
+        var tabs =document.getElementsByTagName('ion-tabs');
+        angular.element(tabs).addClass("tabs-item-hide");
+    });
+}])
+
+
 
 //add new controller.
 .controller('projectDetailCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
@@ -65,11 +87,22 @@ function ($scope, $stateParams) {
             name : localStorage.getItem("username"),
             imageUrl : "",
             coach : "",
-            uid : userId
+            uid : userId,
+            email: firebase.auth().currentUser.email
         };
     });
 
-        //Write process
+
+        
+        /*$scope.user.email = firebase.auth().currentUser.email;
+*/
+        /*return firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
+            $scope.user.name = snapshot.val().name;
+  // ...
+        });*/
+
+
+        /*//Write process
         $scope.writeUserData = function(){
             firebase.database().ref('users/' + userId).set($scope.user);
         }
@@ -80,7 +113,7 @@ function ($scope, $stateParams) {
                 $scope.user.name = res.val().name;
                 $scope.user = res.val();
             });
-        }
+        }*/
 
 
 
@@ -102,10 +135,20 @@ function ($scope, $stateParams) {
 function ($scope, $stateParams) {
     $scope.user = {};
     $scope.user.name = localStorage.getItem("username");
-    $scope.updateName = function(){
+    /*$scope.updateName = function(){
         localStorage.setItem("username", $scope.user.name);
         location.href="#/myProfile";
-    }
+    }*/
+
+
+    $scope.saveName = function(){
+            localStorage.setItem("username", $scope.user.name);
+            var userId = firebase.auth().currentUser.uid;
+            firebase.database().ref('users/' + userId).set({
+                name: $scope.user.name
+            });
+            location.href="#/myProfile";
+        }
 }])
 
 //add new controller.
@@ -124,13 +167,7 @@ function ($scope, $stateParams) {
 
 }])
 
-//add notificationCtrl
-.controller('notificationCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
 
-}])
 
 
 //add new controller.
@@ -178,6 +215,14 @@ function ($scope, $stateParams, $ionicPopup) {
         firebase.auth().signInWithEmailAndPassword($scope.user.email, $scope.user.psw).then(function(msg) {
             // Login Success
             console.log(msg);
+            var userId = firebase.auth().currentUser.uid;
+
+            firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
+                var name = snapshot.val().name;
+                localStorage.setItem("username", name)
+ 
+            });
+
             location.href = "#tab/home";
         }, function(error){
             console.log(error);
