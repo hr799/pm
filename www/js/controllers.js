@@ -83,13 +83,19 @@ function ($scope, $stateParams) {
             return;
         }
         var userId = firebase.auth().currentUser.uid;
-        $scope.user = {
+
+        if(localStorage.getItem('user')){
+            $scope.user = JSON.parse(localStorage.getItem('user'));
+        } else{
+            $scope.user = {};
+        }
+        /*$scope.user = {
             name : localStorage.getItem("username"),
             imageUrl : "",
             coach : "",
             uid : userId,
             email: firebase.auth().currentUser.email
-        };
+        };*/
     });
 
 
@@ -133,22 +139,21 @@ function ($scope, $stateParams) {
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams) {
-    $scope.user = {};
-    $scope.user.name = localStorage.getItem("username");
-    /*$scope.updateName = function(){
-        localStorage.setItem("username", $scope.user.name);
-        location.href="#/myProfile";
-    }*/
+    $scope.user = JSON.parse(localStorage.getItem("user"));
+    if(!$scope.user) $scope.user = {};
+    
 
 
     $scope.saveName = function(){
-            localStorage.setItem("username", $scope.user.name);
+            
             var userId = firebase.auth().currentUser.uid;
-            firebase.database().ref('users/' + userId).set({
-                name: $scope.user.name
+            firebase.database().ref('users/' + userId).set($scope.user).then(function(res){
+                localStorage.setItem("user", JSON.stringify($scope.user));
+                location.href="#/myProfile";
             });
-            location.href="#/myProfile";
-        }
+            }
+            
+        
 }])
 
 //add new controller.
@@ -218,9 +223,11 @@ function ($scope, $stateParams, $ionicPopup) {
             var userId = firebase.auth().currentUser.uid;
 
             firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
-                var name = snapshot.val().name;
-                localStorage.setItem("username", name)
- 
+                if(snapshot.val()){
+                    var user = snapshot.val();
+                    user.email = firebase.auth().currentUser.email;
+                    localStorage.setItem("user", JSON.stringify(user));
+                }
             });
 
             location.href = "#tab/home";
