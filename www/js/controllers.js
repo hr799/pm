@@ -156,6 +156,29 @@ function ($scope, $stateParams) {
         
 }])
 
+
+
+.controller('editProfileCoachCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+// You can include any angular dependencies as parameters for this function
+// TIP: Access Route Parameters for your page via $stateParams.parameterName
+function ($scope, $stateParams) {
+    $scope.user = JSON.parse(localStorage.getItem("user"));
+    if(!$scope.user) $scope.user = {};
+    
+
+
+    $scope.saveCoach = function(){
+            
+            var userId = firebase.auth().currentUser.uid;
+            firebase.database().ref('users/' + userId).set($scope.user).then(function(res){
+                localStorage.setItem("user", JSON.stringify($scope.user));
+                location.href="#/myProfile";
+            });
+            }
+            
+        
+}])
+
 //add new controller.
 .controller('addProjectCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function

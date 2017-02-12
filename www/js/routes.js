@@ -88,6 +88,12 @@ angular.module('app.routes', [])
         controller: 'editProfileNameCtrl'
       })
 
+    .state('editProfileCoach', {
+        url: '/editProfileCoach',
+        templateUrl: 'templates/editProfileCoach.html',
+        controller: 'editProfileCoachCtrl'
+      })
+
 
 
 
