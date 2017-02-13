@@ -90,8 +90,6 @@ function ($scope, $stateParams, $ionicActionSheet) {
             $scope.user = {};
         }
 
-
-
         $scope.show = function() {
 
         // Show the action sheet
@@ -108,7 +106,7 @@ function ($scope, $stateParams, $ionicActionSheet) {
                 },
             buttonClicked: function(index) {
                 if(index==0){
-                    document.addEventListener("deviceready", function () {
+                    
 
                     var options = {
                     quality: 50,
@@ -130,7 +128,7 @@ function ($scope, $stateParams, $ionicActionSheet) {
                     // error
                     });
 
-                    }, false);
+                    
                 }else if(index==1){
                     //add choose from album code here....
                 }
