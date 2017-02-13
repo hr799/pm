@@ -69,10 +69,10 @@ function ($scope, $stateParams) {
 
 
 //add my profile controller.
-.controller('myProfileCtrl', ['$scope', '$stateParams','$ionicActionSheet', '$timeout','$cordovaCamera', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('myProfileCtrl', ['$scope', '$stateParams','$ionicActionSheet', '$timeout','$cordovaCamera', '$cordovaImagePicker',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams, $ionicActionSheet, $cordovaCamera) {
+function ($scope, $stateParams, $ionicActionSheet, $timeout,$cordovaCamera, $cordovaImagePicker) {
     $scope.$on('$ionicView.afterEnter', function(){
         //Get a reference to the database service
         var database = firebase.database();
@@ -107,7 +107,9 @@ function ($scope, $stateParams, $ionicActionSheet, $cordovaCamera) {
             buttonClicked: function(index) {
                 if(index==0){
                     
-
+                    if(!Camera){
+                        alert("You need a real apple device!");
+                    }
                     var options = {
                     quality: 50,
                     destinationType: Camera.DestinationType.DATA_URL,
@@ -130,7 +132,21 @@ function ($scope, $stateParams, $ionicActionSheet, $cordovaCamera) {
 
                     
                 }else if(index==1){
-                    //add choose from album code here....
+                    var options = {
+                    maximumImagesCount: 1,
+                    width: 800,
+                    height: 800,
+                    quality: 80
+                    };
+
+                    $cordovaImagePicker.getPictures(options)
+                        .then(function (results) {
+                        for (var i = 0; i < results.length; i++) {
+                            console.log('Image URI: ' + results[i]);
+                        }
+                        }, function(error) {
+                        // error getting photos
+                        });
                 }
             }
         });
