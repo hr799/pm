@@ -69,10 +69,10 @@ function ($scope, $stateParams) {
 
 
 //add my profile controller.
-.controller('myProfileCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('myProfileCtrl', ['$scope', '$stateParams','$ionicActionSheet', '$timeout', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
+function ($scope, $stateParams, $ionicActionSheet) {
     $scope.$on('$ionicView.afterEnter', function(){
         //Get a reference to the database service
         var database = firebase.database();
@@ -89,6 +89,58 @@ function ($scope, $stateParams) {
         } else{
             $scope.user = {};
         }
+
+
+
+        $scope.show = function() {
+
+        // Show the action sheet
+        var hideSheet = $ionicActionSheet.show({
+            buttons: [
+            { text: 'Take photo' },
+            { text: 'Choose from album' }
+            ],
+            
+            titleText: 'Modify profile picture',
+            cancelText: 'Cancel',
+            cancel: function() {
+                // add cancel code..
+                },
+            buttonClicked: function(index) {
+                if(index==0){
+                    document.addEventListener("deviceready", function () {
+
+                    var options = {
+                    quality: 50,
+                    destinationType: Camera.DestinationType.DATA_URL,
+                    sourceType: Camera.PictureSourceType.CAMERA,
+                    allowEdit: true,
+                    encodingType: Camera.EncodingType.JPEG,
+                    targetWidth: 100,
+                    targetHeight: 100,
+                    popoverOptions: CameraPopoverOptions,
+                    saveToPhotoAlbum: false,
+                    correctOrientation:true
+                    };
+
+                    $cordovaCamera.getPicture(options).then(function(imageData) {
+                        var image = document.getElementById('myImage');
+                        image.src = "data:image/jpeg;base64," + imageData;
+                    }, function(err) {
+                    // error
+                    });
+
+                    }, false);
+                }else if(index==1){
+                    //add choose from album code here....
+                }
+            }
+        });
+
+       
+        
+
+ };
         /*$scope.user = {
             name : localStorage.getItem("username"),
             imageUrl : "",
