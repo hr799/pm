@@ -69,10 +69,10 @@ function ($scope, $stateParams) {
 
 
 //add my profile controller.
-.controller('myProfileCtrl', ['$scope', '$stateParams','$ionicActionSheet', '$timeout', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('myProfileCtrl', ['$scope', '$stateParams','$ionicActionSheet', '$timeout','$cordovaCamera', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams, $ionicActionSheet) {
+function ($scope, $stateParams, $ionicActionSheet, $cordovaCamera) {
     $scope.$on('$ionicView.afterEnter', function(){
         //Get a reference to the database service
         var database = firebase.database();
