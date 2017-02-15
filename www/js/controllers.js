@@ -77,6 +77,9 @@ function ($scope, $stateParams, $ionicActionSheet, $timeout,$cordovaCamera, $cor
         //Get a reference to the database service
         var database = firebase.database();
 
+        // Create a root reference
+        var storageRef = database.ref();
+
         //check if login successful, if not, return to login page.
         if(!firebase.auth().currentUser){
             location.href = "#/login";
@@ -124,8 +127,23 @@ function ($scope, $stateParams, $ionicActionSheet, $timeout,$cordovaCamera, $cor
                     };
 
                     $cordovaCamera.getPicture(options).then(function(imageData) {
-                        var image = document.getElementById('myImage');
+                        var image = document.getElementById('profileImg');
                         image.src = "data:image/jpeg;base64," + imageData;
+
+                        //upload photo to firebase..
+                        storageRef.putString(imageData, 'base64').then(function(snapshot) {
+                            console.log('Uploaded a base64 string!');
+                            var profileImgURL = snapshot.downloadURL;
+
+                            //save profile image url to firebase database..
+                            var user = JSON.parse(localStorage.getItem("user"));
+                            user.imageUrl = profileImgURL;
+                            storageRef('users/' + userId).set($scope.user).then(function(res){
+                                console.log(res);
+                                //update local user info..
+                                localStorage.setItem("user", stringify(user));
+                            });
+                        })
                     }, function(err) {
                     // error
                     });
