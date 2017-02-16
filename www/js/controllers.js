@@ -74,11 +74,11 @@ function ($scope, $stateParams) {
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams, $ionicActionSheet, $timeout,$cordovaCamera, $cordovaImagePicker) {
     $scope.$on('$ionicView.afterEnter', function(){
-        //Get a reference to the database service
-        var database = firebase.database();
-
         // Create a root reference
-        var storageRef = database.ref();
+        var storageRef = firebase.storage().ref();
+
+        // Create a reference to 'mountains.jpg'
+        var imgRef = storageRef.child('img.jpg');
 
         //check if login successful, if not, return to login page.
         if(!firebase.auth().currentUser){
@@ -95,8 +95,8 @@ function ($scope, $stateParams, $ionicActionSheet, $timeout,$cordovaCamera, $cor
 
         $scope.show = function() {
 
-        // Show the action sheet
-        var hideSheet = $ionicActionSheet.show({
+            // Show the action sheet
+            var hideSheet = $ionicActionSheet.show({
             buttons: [
             { text: 'Take photo' },
             { text: 'Choose from album' }
@@ -110,9 +110,7 @@ function ($scope, $stateParams, $ionicActionSheet, $timeout,$cordovaCamera, $cor
             buttonClicked: function(index) {
                 if(index==0){
                     
-                    if(!Camera){
-                        alert("You need a real apple device!");
-                    }
+                    // 
                     var options = {
                     quality: 50,
                     destinationType: Camera.DestinationType.DATA_URL,
@@ -130,8 +128,9 @@ function ($scope, $stateParams, $ionicActionSheet, $timeout,$cordovaCamera, $cor
                         var image = document.getElementById('profileImg');
                         image.src = "data:image/jpeg;base64," + imageData;
 
-                        //upload photo to firebase..
-                        storageRef.putString(imageData, 'base64').then(function(snapshot) {
+
+
+                        imgRef.putString(imageData, 'base64').on('state_changed', function(snapshot){
                             console.log('Uploaded a base64 string!');
                             var profileImgURL = snapshot.downloadURL;
 
@@ -140,12 +139,15 @@ function ($scope, $stateParams, $ionicActionSheet, $timeout,$cordovaCamera, $cor
                             user.imageUrl = profileImgURL;
                             storageRef('users/' + userId).set($scope.user).then(function(res){
                                 console.log(res);
-                                //update local user info..
+                                 //update local user info..
                                 localStorage.setItem("user", stringify(user));
                             });
+                        }, function(error){
+                            //error code here
+                        }, function(){
+                        //success
                         })
-                    }, function(err) {
-                    // error
+                        
                     });
 
                     
@@ -286,7 +288,7 @@ function ($scope, $stateParams) {
 .controller('feedbackDetailCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {	
+function ($scope, $stateParams) {   
 
 
 }])
