@@ -63,6 +63,16 @@ angular.module('app.routes', [])
       }
     })
 
+    .state('tab.diaries', {
+      url: '/diaries',
+      views: {
+        'project': {
+          templateUrl: 'templates/diaries.html',
+          controller: 'diariesCtrl'
+        }
+      }
+    })
+
     .state('addFeedback', {
         url: '/addFeedback',
         templateUrl: 'templates/addFeedback.html',

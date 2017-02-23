@@ -1,6 +1,6 @@
 <ion-header-bar align-title="center" class="bar-stable">
     <div class="buttons">
-        <button class="button button-icon button-clear ion-ios-arrow-back"></button>
+        <button class="button button-icon button-clear ion-ios-arrow-back" ng-click="$ionicGoBack()"></button>
     </div>
 
     <div class="h1 title" >Add Project</div>
@@ -9,10 +9,36 @@
     </div>
 </ion-header-bar>
 
-<ion-view title="Add Feedback">
+<ion-view title="Add Project">
     <ion-content class="has-header">
-        <div style="width: 100%;height: 100%; padding-left: 11px; position: relative;">
-            <div style="width: 100%;height: 50px; border-bottom: 1px solid lightgray;">
+        <div style="width: 100%;height: 100%;">
+            <div class="list">
+              <label class="item item-input item-stacked-label">
+                <span class="input-label">Project Name</span>
+                <input type="text" >
+              </label>
+              <label class="item item-input item-stacked-label">
+                <span class="input-label">Client</span>
+                <input type="text" >
+              </label>
+              
+              <label class="item item-input item-stacked-label">
+                <span class="input-label">Start Date</span>
+                <input type="date">
+              </label>
+              <label class="item item-input item-stacked-label">
+                <span class="input-label">Description</span>
+                <input type="text" >
+              </label>
+              
+            </div>
+
+
+            
+
+            
+
+            <!-- <div style="width: 100%;height: 50px; border-bottom: 1px solid lightgray;">
                 <div style="width: 30%; height: 100%; float: left;">
                     <h4 style="margin-top: 15px; font-size: 15px; font-weight: bold;">Name</h4>
                     
@@ -21,7 +47,7 @@
                     <input type="text" style="">
                 </div>
             </div>
-
+            
             <div style="width: 100%;height: 50px; border-bottom: 1px solid lightgray;">
                 <div style="width: 30%; height: 100%; float: left;">
                     <h4 style="margin-top: 15px; font-size: 15px; font-weight: bold;">Client</h4>
@@ -31,7 +57,7 @@
                     <input type="text" style="">
                 </div>
             </div>
-
+            
             <div style="width: 100%;height: 50px; border-bottom: 1px solid lightgray;">
                 <div style="width: 30%; height: 100%; float: left;">
                     <h4 style="margin-top: 15px; font-size: 15px; font-weight: bold;">Start</h4>
@@ -41,7 +67,7 @@
                     <input type="date" style="">
                 </div>
             </div>
-
+            
             <div style="width: 100%;height: 50px; border-bottom: 1px solid lightgray;">
                 <div style="width: 30%; height: 100%; float: left;">
                     <h4 style="margin-top: 15px; font-size: 15px; font-weight: bold;">End</h4>
@@ -50,16 +76,9 @@
                 <div style="width: 70%; height: 50px; float: right;">
                     <input type="date" style="">
                 </div>
-            </div>
+            </div> -->
 
-
-            
-
-            
-
-    
-
-            <div style="width: 100%;height: 100px; border-bottom: 1px solid lightgray;">
+            <!-- <div style="width: 100%;height: 100px; border-bottom: 1px solid lightgray;">
                 <div style="width: 100%; height: 30px;">
                     <h4 style="margin-top: 15px; font-size: 15px; font-weight: bold;">Member</h4>
                 </div>
@@ -76,15 +95,15 @@
             
                 </div>
             </div>
-
-            <div style="width: 100%;height: auto;  ">
+             -->
+            <!-- <div style="width: 100%;height: auto;  ">
                 <div style="width: 100%; height: 30px;">
                     <h4 style="margin-top: 15px; font-size: 15px; font-weight: bold;">Description</h4>
                 </div>
                 <div style="width: 100%; height:100px;">
                     <textarea style="height:100%; width: 97%; border:1px solid lightgray;"></textarea>
                 </div>
-            </div>
+            </div> -->
 
 
 
