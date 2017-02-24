@@ -31,6 +31,16 @@ angular.module('app.routes', [])
     }
   })
 
+  .state('tab.addDiarie', {
+    url: '/project',
+    views: {
+      'project': {
+        templateUrl: 'templates/addDiarie.html',
+        controller: 'addDiarieCtrl'
+      }
+    }
+  })
+
 
   //add notification tab
   .state('tab.notification', {
