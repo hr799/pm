@@ -9,6 +9,21 @@ function ($scope, $stateParams) {
         if (pages.indexOf(location.hash) > -1) {
             var tabs =document.getElementsByTagName('ion-tabs');
             angular.element(tabs).removeClass("tabs-item-hide");
+
+            $scope.project = {
+                title: "",
+                client: "",
+                startDate: "",
+                goal: "",
+                description: ""
+            };
+            localStorage.setItem("project", JSON.stringify(project));
+
+            if(localStorage.getItem('user')){
+                $scope.user = JSON.parse(localStorage.getItem('user'));
+            } else{
+                $scope.user = {};
+            }
         }
     });
     $scope.$on('$ionicView.afterLeave', function() {
@@ -130,7 +145,7 @@ function ($scope, $stateParams, $ionicActionSheet, $timeout,$cordovaCamera, $cor
                     
                     // 
                     var options = {
-                    quality: 50,
+                    quality: 70,
                     destinationType: Camera.DestinationType.DATA_URL,
                     sourceType: Camera.PictureSourceType.CAMERA,
                     allowEdit: true,
@@ -255,7 +270,7 @@ function ($scope, $stateParams) {
                 localStorage.setItem("user", JSON.stringify($scope.user));
                 location.href="#/myProfile";
             });
-            }
+    }
             
         
 }])
@@ -288,7 +303,15 @@ function ($scope, $stateParams) {
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams) {
-
+    $scope.project = {};
+    $scope.saveProject = function(){
+        var userId = firebase.auth().currentUser.uid;
+        firebase.database().ref('users/' + userId + '/projects').push($scope.project).then(function(res){
+            
+            location.href="#/tab/project";
+        });
+    
+    }
 }])
 
 //addFeedback Controller
