@@ -304,11 +304,18 @@ function ($scope, $stateParams) {
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams, $ionicPopup) {
     $scope.project = {};
+    
     $scope.saveProject = function(){
         var userId = firebase.auth().currentUser.uid;
-        $scope.project.startDate = $scope.project.startDate.toString();
+        var pj = {};
+        pj.startDate = $scope.project.startDate.toString();
+        pj.name = $scope.project.name;
+        pj.client = $scope.project.client;
+        pj.goal = $scope.project.goal;
+        pj.description = $scope.project.description;
+        // $scope.project.startDate = $scope.project.startDate.toString();
         var newProjectRef = firebase.database().ref('users/' + userId + '/projects').push();
-        newProjectRef.set($scope.project).then(function(res){
+        newProjectRef.set(pj).then(function(res){
             $ionicPopup.alert({
                     
                     template:'New Project Created'
