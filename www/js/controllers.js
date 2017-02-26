@@ -299,15 +299,20 @@ function ($scope, $stateParams) {
 }])
 
 //add new controller.
-.controller('addProjectCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('addProjectCtrl', ['$scope', '$stateParams','$ionicPopup', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
+function ($scope, $stateParams, $ionicPopup) {
     $scope.project = {};
     $scope.saveProject = function(){
         var userId = firebase.auth().currentUser.uid;
-        firebase.database().ref('users/' + userId + '/projects').push($scope.project).then(function(res){
-            
+        $scope.project.startDate = $scope.project.startDate.toString();
+        var newProjectRef = firebase.database().ref('users/' + userId + '/projects').push();
+        newProjectRef.set($scope.project).then(function(res){
+            $ionicPopup.alert({
+                    
+                    template:'New Project Created'
+                })
             location.href="#/tab/project";
         });
     
