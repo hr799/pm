@@ -96,6 +96,8 @@ function ($scope, $stateParams) {
             $scope.projectList = snapshot.val();
         });
 
+        $scope.displayProject = JSON.parse(localStorage.getItem('tempProject'));
+
     });
 
 }])
