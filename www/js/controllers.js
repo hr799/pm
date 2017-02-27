@@ -45,15 +45,22 @@ function ($scope, $stateParams) {
         }
         var userId = firebase.auth().currentUser.uid;
         firebase.database().ref('/users/' + userId + '/projects').once('value').then(function(snapshot){
-            var projectList = snapshot.val();
+            $scope.projectList = snapshot.val();
+
         });
-        
+
     });
     $scope.$on('$ionicView.afterLeave', function() {
         if (pages.indexOf(location.hash) > -1) return;
         var tabs =document.getElementsByTagName('ion-tabs');
         angular.element(tabs).addClass("tabs-item-hide");
     });
+
+    $scope.goToProject = function(id){
+        var project = $scope.projectList[id];
+        localStorage.setItem("tempProject", JSON.stringify(project));
+        location.href = "#/tab/projectDetail";
+    };
 }])
 
 
@@ -83,7 +90,13 @@ function ($scope, $stateParams) {
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams) {
+    $scope.$on('$ionicView.afterEnter', function() {
+        var userId = firebase.auth().currentUser.uid;
+        firebase.database().ref('/users/' + userId + '/projects').once('value').then(function(snapshot){
+            $scope.projectList = snapshot.val();
+        });
 
+    });
 
 }])
 

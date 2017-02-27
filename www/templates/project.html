@@ -10,11 +10,12 @@
 
 <ion-view title="Project">
   <ion-content padding="true" class="has-header" style="background:#f4f4f4;">
-    <div class="list" ng-repeat="x in projectList">
-      <a class="item item-thumbnail-left" href="#" ui-sref="tab.projectDetail({id: 1})">
+    <div class="list" ng-repeat="(key, item) in projectList">
+      <a class="item item-thumbnail-left" href="#" ng-click= "goToProject(key)">
       <img src="img/LarryPage.png">
-      <h2>{{x.name}}</h2>
-      <p>{{x.description}}</p>
+      <h2>{{item.name}}</h2>
+      <p>{{item.description}}</p>
+      <!-- <p>{{key}}</p> -->
       </a>
 
       </div>

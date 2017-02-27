@@ -55,7 +55,7 @@ angular.module('app.routes', [])
 
 
     .state('tab.projectDetail', {
-      url: '/projectDetail/:id',
+      url: '/projectDetail',
       views: {
         'project': {
           templateUrl: 'templates/projectDetail.html',
