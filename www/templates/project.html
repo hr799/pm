@@ -10,24 +10,14 @@
 
 <ion-view title="Project">
   <ion-content padding="true" class="has-header" style="background:#f4f4f4;">
-    <div class="list" >
+    <div class="list" ng-repeat="x in projectList">
       <a class="item item-thumbnail-left" href="#" ui-sref="tab.projectDetail({id: 1})">
       <img src="img/LarryPage.png">
-      <h2>Korero Porject</h2>
-      <p>Here is the project detail sample text sample text sample text sample text sample text sample text</p>
+      <h2>{{x.name}}</h2>
+      <p>{{x.description}}</p>
       </a>
 
-      <a class="item item-thumbnail-left" href="#" ui-sref="tab.projectDetail({id: 1})">
-      <img src="img/stevejobs.png">
-      <h2>Performance Management</h2>
-      <p>Here is the project detail</p>
-      </a>
-
-      <a class="item item-thumbnail-left" href="#" ui-sref="tab.projectDetail({id: 1})">
-      <img src="img/billgate.jpg">
-      <h2>AUT Final Year Project</h2>
-      <p>Here is the project detail</p>
-      </a>
+      </div>
 
 
       
@@ -44,6 +34,6 @@
         
       </div> -->
       
-    </div>
+    
   </ion-content>
 </ion-view>

@@ -10,14 +10,14 @@ function ($scope, $stateParams) {
             var tabs =document.getElementsByTagName('ion-tabs');
             angular.element(tabs).removeClass("tabs-item-hide");
 
-            $scope.project = {
+            /*$scope.project = {
                 title: "",
                 client: "",
                 startDate: "",
                 goal: "",
                 description: ""
-            };
-            localStorage.setItem("project", JSON.stringify(project));
+            };*/
+            // localStorage.setItem("project", JSON.stringify(project));
 
             if(localStorage.getItem('user')){
                 $scope.user = JSON.parse(localStorage.getItem('user'));
@@ -43,6 +43,11 @@ function ($scope, $stateParams) {
             var tabs =document.getElementsByTagName('ion-tabs');
             angular.element(tabs).removeClass("tabs-item-hide");
         }
+        var userId = firebase.auth().currentUser.uid;
+        firebase.database().ref('/users/' + userId + '/projects').once('value').then(function(snapshot){
+            var projectList = snapshot.val();
+        });
+        
     });
     $scope.$on('$ionicView.afterLeave', function() {
         if (pages.indexOf(location.hash) > -1) return;
