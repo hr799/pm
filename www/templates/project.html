@@ -4,37 +4,31 @@
     </div>
     <div class="h1 title login-title" >Project</div>
     <div class="buttons">
-        <button class="button button-icon button-clear ion-plus" ui-sref="tab.addProject"></button>
+        <button class="button button-icon button-clear ion-plus" ui-sref="tab.addProject({id: 0})"></button>
     </div>
 </ion-header-bar>
 
 <ion-view title="Project">
   <ion-content padding="true" class="has-header" style="background:#f4f4f4;">
-    <div class="list" ng-repeat="(key, item) in projectList">
-      <a class="item item-thumbnail-left" href="#" ng-click= "goToProject(key)">
+    <div class="card" ng-repeat="(key, item) in projectList">
+      <!-- <div class="item item-text-wrap" ng-click="goToProject(key)">
+        <h2>Name:&nbsp;{{item.name}}</h2>
+        <h2>Client:&nbsp;{{item.client}}</h2>
+        
+        
+        <h2>Description:</h2>
+        <p>{{item.description}}</p>
+      </div> -->
+
+      <div class="list" ng-repeat="(key, item) in projectList">
+      <a class="item item-thumbnail-left" ng-click= "goToProject(key)">
       <img src="img/LarryPage.png">
-      <h2>{{item.name}}</h2>
+      <h2>Title:&nbsp;{{item.name}}</h2>
       <p>{{item.description}}</p>
       <!-- <p>{{key}}</p> -->
       </a>
 
       </div>
-
-
-      
-
-
-      
-
-      <!-- <div style="padding: 5px; position: relative;background: white; width: 100%; height: 100%; border-radius: 8px;margin-bottom: 10px;" ui-sref="tab.projectDetail({id: 1})">
-        <img src="img/project.png" style="position: absolute; top:15px; left:10px;width:46px;height:46px; border-radius: 15px;">
-        <h2 style="left:65px;margin-left: 60px;margin-top: 5px;text-overflow: ellipsis;font-size: 18px;width:50%;white-space: nowrap;overflow: hidden;font-weight:bold;margin-bottom: 0;">Project one</h2>
-        <p style="word-wrap: normal;overflow: hidden;text-overflow: ellipsis;display: -webkit-box;-webkit-line-clamp: 3;-webkit-box-orient: vertical;margin-top: 5px;margin-left: 59px;margin-bottom: 3px;">
-          Description about this project,Description about this project,Description about this project, Description about this project,Description about this project, Description about this project,Description about this project, Description about this project,Description about this project
-        </p>
-        
-      </div> -->
-      
-    
+    </div>
   </ion-content>
 </ion-view>

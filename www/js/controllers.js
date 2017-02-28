@@ -10,15 +10,6 @@ function ($scope, $stateParams) {
             var tabs =document.getElementsByTagName('ion-tabs');
             angular.element(tabs).removeClass("tabs-item-hide");
 
-            /*$scope.project = {
-                title: "",
-                client: "",
-                startDate: "",
-                goal: "",
-                description: ""
-            };*/
-            // localStorage.setItem("project", JSON.stringify(project));
-
             if(localStorage.getItem('user')){
                 $scope.user = JSON.parse(localStorage.getItem('user'));
             } else{
@@ -44,9 +35,9 @@ function ($scope, $stateParams) {
             angular.element(tabs).removeClass("tabs-item-hide");
         }
         var userId = firebase.auth().currentUser.uid;
-        firebase.database().ref('/users/' + userId + '/projects').once('value').then(function(snapshot){
+        firebase.database().ref('/projects/' + userId).once('value').then(function(snapshot){
             $scope.projectList = snapshot.val();
-
+            $scope.$apply();
         });
 
     });
@@ -58,6 +49,7 @@ function ($scope, $stateParams) {
 
     $scope.goToProject = function(id){
         var project = $scope.projectList[id];
+        project.id = id;    // 添加project id后面需要用到
         localStorage.setItem("tempProject", JSON.stringify(project));
         location.href = "#/tab/projectDetail";
     };
@@ -92,7 +84,7 @@ function ($scope, $stateParams) {
 function ($scope, $stateParams) {
     $scope.$on('$ionicView.afterEnter', function() {
         var userId = firebase.auth().currentUser.uid;
-        firebase.database().ref('/users/' + userId + '/projects').once('value').then(function(snapshot){
+        firebase.database().ref('/projects/' + userId).once('value').then(function(snapshot){
             $scope.projectList = snapshot.val();
         });
 
@@ -180,9 +172,6 @@ function ($scope, $stateParams, $ionicActionSheet, $timeout,$cordovaCamera, $cor
                     $cordovaCamera.getPicture(options).then(function(imageData) {
                         var image = document.getElementById('profileImg');
                         image.src = "data:image/jpeg;base64," + imageData;
-
-
-
                         imgRef.putString(imageData, 'base64').on('state_changed', function(snapshot){
                             console.log('Uploaded a base64 string!');
                             var profileImgURL = snapshot.downloadURL;
@@ -199,12 +188,9 @@ function ($scope, $stateParams, $ionicActionSheet, $timeout,$cordovaCamera, $cor
                             //error code here
                         }, function(){
                         //success
-                        })
-                        
+                        }) 
                     });
-
-                    
-                }else if(index==1){
+                } else if (index==1) {
                     var options = {
                     maximumImagesCount: 1,
                     width: 800,
@@ -220,47 +206,11 @@ function ($scope, $stateParams, $ionicActionSheet, $timeout,$cordovaCamera, $cor
                         }, function(error) {
                         // error getting photos
                         });
+                    }
                 }
-            }
-        });
-
-       
-        
-
- };
-        /*$scope.user = {
-            name : localStorage.getItem("username"),
-            imageUrl : "",
-            coach : "",
-            uid : userId,
-            email: firebase.auth().currentUser.email
-        };*/
-    });
-
-
-        
-        /*$scope.user.email = firebase.auth().currentUser.email;
-*/
-        /*return firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
-            $scope.user.name = snapshot.val().name;
-  // ...
-        });*/
-
-
-        /*//Write process
-        $scope.writeUserData = function(){
-            firebase.database().ref('users/' + userId).set($scope.user);
-        }
-
-        //read process
-        $scope.readUserData = function(){
-            firebase.database().ref('/users/' + userId).once('value').then(function(res){
-                $scope.user.name = res.val().name;
-                $scope.user = res.val();
             });
-        }*/
-
-
+        };
+    });
 
 }])
 
@@ -280,21 +230,16 @@ function ($scope, $stateParams) {
 function ($scope, $stateParams) {
     $scope.user = JSON.parse(localStorage.getItem("user"));
     if(!$scope.user) $scope.user = {};
-    
-
 
     $scope.saveName = function(){
-            
-            var userId = firebase.auth().currentUser.uid;
-            firebase.database().ref('users/' + userId).set($scope.user).then(function(res){
-                localStorage.setItem("user", JSON.stringify($scope.user));
-                location.href="#/myProfile";
-            });
+        var userId = firebase.auth().currentUser.uid;
+        firebase.database().ref('users/' + userId).set($scope.user).then(function(res){
+            localStorage.setItem("user", JSON.stringify($scope.user));
+            location.href="#/myProfile";
+        });
     }
             
-        
 }])
-
 
 
 .controller('editProfileCoachCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
@@ -304,17 +249,13 @@ function ($scope, $stateParams) {
     $scope.user = JSON.parse(localStorage.getItem("user"));
     if(!$scope.user) $scope.user = {};
     
-
-
     $scope.saveCoach = function(){
-            
-            var userId = firebase.auth().currentUser.uid;
-            firebase.database().ref('users/' + userId).set($scope.user).then(function(res){
-                localStorage.setItem("user", JSON.stringify($scope.user));
-                location.href="#/myProfile";
-            });
-            }
-            
+        var userId = firebase.auth().currentUser.uid;
+        firebase.database().ref('users/' + userId).set($scope.user).then(function(res){
+            localStorage.setItem("user", JSON.stringify($scope.user));
+            location.href="#/myProfile";
+        });
+    }        
         
 }])
 
@@ -323,27 +264,67 @@ function ($scope, $stateParams) {
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams, $ionicPopup) {
-    $scope.project = {};
-    
+    $scope.$on('$ionicView.afterEnter', function() {  
+        $scope.title = "Add Project";
+        $scope.project = {};
+        if ($stateParams.id != "0") {
+            $scope.canDelete = true;
+            $scope.title = "Edit Project";
+            $scope.project = JSON.parse(localStorage.getItem('tempProject'));
+            if ($scope.project.startDate) {
+                $scope.project.startDate = new Date($scope.project.startDate);  
+            } else {
+                $scope.project.startDate = new Date();  
+            };
+        };
+    });
+
     $scope.saveProject = function(){
         var userId = firebase.auth().currentUser.uid;
+        if (!$scope.project.startDate) {
+            alert("Please specify start date");
+            return;
+        };
         var pj = {};
         pj.startDate = $scope.project.startDate.toString();
         pj.name = $scope.project.name;
         pj.client = $scope.project.client;
         pj.goal = $scope.project.goal;
         pj.description = $scope.project.description;
-        // $scope.project.startDate = $scope.project.startDate.toString();
-        var newProjectRef = firebase.database().ref('users/' + userId + '/projects').push();
-        newProjectRef.set(pj).then(function(res){
-            $ionicPopup.alert({
-                    
-                    template:'New Project Created'
+        var ref;
+        if ($scope.project.id) {
+            var ref = firebase.database().ref('projects/' + userId);
+            var updates = {};
+            updates['projects/' + userId + '/' + $scope.project.id] = pj;
+            firebase.database().ref().update(updates, function(error) {
+                tmp = "Project Updated";
+                $ionicPopup.alert({
+                    template:tmp
                 })
-            location.href="#/tab/project";
+                location.href="#/tab/project";
+            });
+        } else {
+            firebase.database().ref('projects/' + userId).push().set(pj, function(res){
+                var tmp = "New Project Created"
+                $ionicPopup.alert({
+                    template:tmp
+                })
+                location.href="#/tab/project";
+            });
+        }
+    };
+
+    $scope.delete = function(){
+        var userId = firebase.auth().currentUser.uid;
+        var ref = firebase.database().ref('projects/' + userId);
+        ref.child($scope.project.id).remove(function(error){
+            if (error) {
+                alert(error);
+            } else {
+                location.href = "#/tab/project";
+            };
         });
-    
-    }
+    };
 }])
 
 //addFeedback Controller
@@ -411,8 +392,9 @@ function ($scope, $stateParams, $ionicPopup) {
                     localStorage.setItem("user", JSON.stringify(user));
                 }
             });
-
             location.href = "#tab/home";
+            location.reload();
+
         }, function(error){
             console.log(error);
             var errorCode = error.code;
@@ -438,11 +420,6 @@ function ($scope, $stateParams, $ionicPopup) {
     };
 
 }])
-
-
-
-
-
    
 .controller('signUpCtrl', ['$scope', '$stateParams', '$ionicPopup',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
@@ -453,27 +430,25 @@ function ($scope, $stateParams, $ionicPopup) {
         console.log($scope.user.email+$scope.user.psw+$scope.user.name);
 
         var psw = $scope.user.psw;
-
-            if(psw.length < 6){
+            if (psw.length < 6) {
                 $ionicPopup.alert({
                     title:'Weak Password',
                     template:'Password should not be less than 6 characters'
                 })
-            }else if(psw.length >25){
+            } else if (psw.length >25) {
                 $ionicPopup.alert({
                     title:'Invalid Password',
                     template:'Password should not exceed 25 characters'
                 })
 
-            }else if(psw.search(/[A-Z]/) <0){
+            } else if (psw.search(/[A-Z]/) <0) {
                 $ionicPopup.alert({
                     title:'Invalid Password',
                     template:'Password should contain at lease 1 uppercase'
                 })
-            }else{
+            } else {
                 firebase.auth().createUserWithEmailAndPassword($scope.user.email, $scope.user.psw).then(function(msg) {
                   // Handle Errors here.
-                  
                   console.log(msg);
                   alert("User created!");
                   location.href = "#tab/login";
@@ -495,17 +470,4 @@ function ($scope, $stateParams, $ionicPopup) {
                 });
             }
     };
-
-
-    
-
 }])
-   
-/*.controller('addNewProjectCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
-// You can include any angular dependencies as parameters for this function
-// TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
-
-
-}])
- */

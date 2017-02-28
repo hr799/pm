@@ -4,45 +4,31 @@
   		<div style=";background: lightgrey; width: 100%; height: 100%; position: relative;">
   			<div style="width: 100%; height: 200px; background: #3b4047; ">
           <img src="img/back.png" style="position: absolute; width: 35px; height: 35px; top: 15px; left: 10px;" ng-click="$ionicGoBack()">
-          <img src="img/edit.png" style="position: absolute; width: 35px; height: 35px; top: 15px; right: 15px;">
+          <img src="img/edit.png" ui-sref="tab.addProject({id: displayProject.id})" style="position: absolute; width: 35px; height: 35px; top: 15px; right: 15px;">
   			  <p style="text-align: center;"><img src="img/pm.png" style="position: relative; width: 120px; height: 120px; top: 40px; border-radius: 60px;"></p>
         </div>
 
-        <!-- <div style="width: 100%; height: 65px; border-bottom: 1px solid lightgrey; background: white; margin-bottom: 11px; font-size: 0;">
-          <div style="width: 100%; height: 100%; border-right: 1px solid lightgrey;display:inline-block;">
-            <h4 style="position: relative; text-align: center;">Start Date</h4>
-            <p style="text-align: center; font-size: 14px; margin:0; padding: 0;">19/08/2016</p>
-          </div>
-        
-          <div style="width: 50%;display:inline-block; ">
-            <h4 style="position: relative; text-align: center;">End Date</h4>
-            <p style="text-align: center; font-size: 14px; margin:0; padding: 0;">26/05/2017</p>
-          </div>
-        </div> -->
-
         <div style="width: 100%; height: 100%; background: white; border-top: 1px solid lightgrey; padding-left: 11px; ">
           <div style="width: 100%; height: 100%; border-bottom: 1px solid lightgrey;">
-            
-          
-
-          <h4>Description</h4>
-            <p >{{displayProject.description}}</p>
+            <h4>Name</h4>
+            <p >{{displayProject.name}}</p>
+          </div>
+          <div style="width: 100%; height: 100%; border-bottom: 1px solid lightgrey;">
+            <h4>Client</h4>
+            <p>{{displayProject.client}}</p>
           </div>
           <div style="width: 100%; height: 100%; border-bottom: 1px solid lightgrey;">
             <h4>Start Date</h4>
             <p>{{displayProject.startDate}}</p>
           </div>
           <div style="width: 100%; height: 100%; border-bottom: 1px solid lightgrey;">
-            <h4>Client</h4>
-            <p>{{displayProject.client}}</p>
-          </div>
-
-          <div style="width: 100%; height: 100%; border-bottom: 1px solid lightgrey;">
             <h4>Goal</h4>
             <p>{{displayProject.goal}}</p>
           </div>
-
-          
+          <div style="width: 100%; height: 100%; border-bottom: 1px solid lightgrey;">
+            <h4>Description</h4>
+            <p >{{displayProject.description}}</p>
+          </div>
 
           <div style="width: 100%; height: 100%; border-bottom: 1px solid lightgrey; position: relative; top: 12px;" ui-sref="tab.diaries">
             <h4 style="display: inline-block; position: relative;">Diaries</h4>

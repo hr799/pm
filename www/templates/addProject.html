@@ -3,7 +3,7 @@
         <button class="button button-icon button-clear ion-ios-arrow-back" ng-click="$ionicGoBack()"></button>
     </div>
 
-    <div class="h1 title" >Add Project</div>
+    <div class="h1 title" >{{title}}</div>
     <div class="buttons ">
         <button class="button button-icon button-clear ion-checkmark-round" side="secondary" ng-click="saveProject()"></button>
     </div>
@@ -34,128 +34,9 @@
                 <span class="input-label">Description</span>
                 <input ng-model="project.description" type="text" >
               </label>
-              
             </div>
 
-
-            
-
-            
-
-            <!-- <div style="width: 100%;height: 50px; border-bottom: 1px solid lightgray;">
-                <div style="width: 30%; height: 100%; float: left;">
-                    <h4 style="margin-top: 15px; font-size: 15px; font-weight: bold;">Name</h4>
-                    
-                </div>
-                <div style="width: 70%; height: 50px; float: right;">
-                    <input type="text" style="">
-                </div>
-            </div>
-            
-            <div style="width: 100%;height: 50px; border-bottom: 1px solid lightgray;">
-                <div style="width: 30%; height: 100%; float: left;">
-                    <h4 style="margin-top: 15px; font-size: 15px; font-weight: bold;">Client</h4>
-                    
-                </div>
-                <div style="width: 70%; height: 50px; float: right;">
-                    <input type="text" style="">
-                </div>
-            </div>
-            
-            <div style="width: 100%;height: 50px; border-bottom: 1px solid lightgray;">
-                <div style="width: 30%; height: 100%; float: left;">
-                    <h4 style="margin-top: 15px; font-size: 15px; font-weight: bold;">Start</h4>
-                    
-                </div>
-                <div style="width: 70%; height: 50px; float: right;">
-                    <input type="date" style="">
-                </div>
-            </div>
-            
-            <div style="width: 100%;height: 50px; border-bottom: 1px solid lightgray;">
-                <div style="width: 30%; height: 100%; float: left;">
-                    <h4 style="margin-top: 15px; font-size: 15px; font-weight: bold;">End</h4>
-                    
-                </div>
-                <div style="width: 70%; height: 50px; float: right;">
-                    <input type="date" style="">
-                </div>
-            </div> -->
-
-            <!-- <div style="width: 100%;height: 100px; border-bottom: 1px solid lightgray;">
-                <div style="width: 100%; height: 30px;">
-                    <h4 style="margin-top: 15px; font-size: 15px; font-weight: bold;">Member</h4>
-                </div>
-                <div style="width: 100%; height: 70px;white-space: nowrap;overflow-x: scroll;">
-                      <img src="img/add.png" style="width: 40px; height: 40px; border-radius: 20px;margin-right: 6px;">
-                      <img src="img/stevejobs.png" style="width: 40px; height: 40px; border-radius: 20px;margin-right: 6px;">
-                      <img src="img/larryPage.png" style="width: 40px; height: 40px; border-radius: 20px;margin-right: 6px;">
-                      <img src="img/Zuckerberg.png" style="width: 40px; height: 40px; border-radius: 20px;margin-right: 6px;">
-                      <img src="img/billgate.jpg" style="width: 40px; height: 40px; border-radius: 20px;margin-right: 6px;">
-                      <img src="img/stevejobs.png" style="width: 40px; height: 40px; border-radius: 20px;margin-right: 6px;">
-                      <img src="img/larryPage.png" style="width: 40px; height: 40px; border-radius: 20px;margin-right: 6px;">
-                      <img src="img/Zuckerberg.png" style="width: 40px; height: 40px; border-radius: 20px;margin-right: 6px;">
-                      <img src="img/billgate.jpg" style="width: 40px; height: 40px; border-radius: 20px;margin-right: 6px;">
-            
-                </div>
-            </div>
-             -->
-            <!-- <div style="width: 100%;height: auto;  ">
-                <div style="width: 100%; height: 30px;">
-                    <h4 style="margin-top: 15px; font-size: 15px; font-weight: bold;">Description</h4>
-                </div>
-                <div style="width: 100%; height:100px;">
-                    <textarea style="height:100%; width: 97%; border:1px solid lightgray;"></textarea>
-                </div>
-            </div> -->
-
-
-
-
+            <button class="button button-assertive" style="margin-left: 25%;width: 50%;height: 35px;line-height: 35px;min-height: 35px;" ng-click="delete()" ng-show="canDelete">Delete</button>
         </div>
     </ion-content>
 </ion-view>
-
-<!-- <ion-view title="Add Project" style="background:#f4f4f4;margin-top:44px;">
-    <div class="list" >
-    	<div style="width: 100%; height: 100%; position: relative; padding-left: 11px;">
-            <div style="background: white; width: 100%; height: 100%; display: inline-block; font-size: 0; padding-left: 11px;">
-            	<div style="border-bottom: 1px solid lightgrey; height: 50px; width: 100%;">
-            		<Div style="width: 20%;height: 100%; display: inline-block; font-size: 15px; font-weight: bold; margin-top: 10px;">Name</div>
-            		<input type="text" style="width: 80%;height: 100%; display: inline-block; float: right;"></input>
-            	</div>
-
-            	<div style="border-bottom: 1px solid lightgrey;display: inline-block; width: 100%;height: 50px;">
-            		<div style="width: 20%; display: inline-block; font-weight: bold;font-size: 15px;margin-top: 10px;">Client</div>
-            		<input type="text" style="width: 80%; display: inline-block; height: 100%;float: right;"></input>
-            	</div>
-
-            	<div style="border-bottom: 1px solid lightgrey;display: inline-block;width: 100%;height: 50px;">
-            		<div style="width: 20%; display: inline-block;font-weight: bold;font-size: 15px; margin-top: 10px;">Start</div>
-            		<input type="date" style="width: 80%; display: inline-block;float: right; height: 100%;"></input>
-            	</div>
-
-            	<div style="border-bottom: 1px solid lightgrey;display: inline-block;width: 100%;height: 50px;">
-            		<div style="width: 20%; display: inline-block;font-weight: bold;font-size: 15px; margin-top: 10px;">End</div>
-            		<input type="date" style="width: 80%; display: inline-block;float: right; height: 100%;"></input>
-            	</div>
-
-            	<div style="border-bottom: 1px solid lightgrey;width: 100%;height: 110px;">
-            		<div style="width: 20%;font-weight: bold; font-size: 14px;margin-top: 10px;">Members</div>
-            		<div style="white-space: nowrap;overflow-x: scroll;margin-top: 10px;">
-                      <img src="img/stevejobs.png" style="width: 40px; height: 40px; border-radius: 20px;margin-right: 6px;">
-                      <img src="img/larryPage.png" style="width: 40px; height: 40px; border-radius: 20px;margin-right: 6px;">
-                      <img src="img/Zuckerberg.png" style="width: 40px; height: 40px; border-radius: 20px;margin-right: 6px;">
-                      <img src="img/billgate.jpg" style="width: 40px; height: 40px; border-radius: 20px;margin-right: 6px;">
-                      <img src="img/add.png" style="width: 45px; height: 45px; border-radius: 20px;margin-right: 6px; ;">
-            	    </div>
-                </div>
-
-            	<div style="border-bottom: 1px solid lightgrey; font-size: 15px; height: auto; width: 100%;" >
-            		<div style="width: 100%; font-size: 15px; font-weight: bold; margin-top: 10px;">Description</div>
-            		<textarea style="width: 100%; height: 100px; margin-top: 10px;"></textarea>
-            	</div>
-            </div>
-    	</div>
-    </div>
-</ion-view> -->
