@@ -30,6 +30,7 @@ function ($scope, $stateParams) {
 function ($scope, $stateParams) {
     var pages = "#/tab/home+#/tab/notification+#/tab/project";
     $scope.$on('$ionicView.afterEnter', function() {
+        //check if current view is home or project or notification, if so show bottom tabs.
         if (pages.indexOf(location.hash) > -1) {
             var tabs =document.getElementsByTagName('ion-tabs');
             angular.element(tabs).removeClass("tabs-item-hide");
@@ -41,15 +42,18 @@ function ($scope, $stateParams) {
         });
 
     });
+
+    //check when leave the page, if not in home, project or notification page, then dont show bottom tabs. 
     $scope.$on('$ionicView.afterLeave', function() {
         if (pages.indexOf(location.hash) > -1) return;
         var tabs =document.getElementsByTagName('ion-tabs');
         angular.element(tabs).addClass("tabs-item-hide");
     });
 
+    //trigger when user click on project div
     $scope.goToProject = function(id){
         var project = $scope.projectList[id];
-        project.id = id;    // 添加project id后面需要用到
+        project.id = id;    // add project ID, to be used after.
         localStorage.setItem("tempProject", JSON.stringify(project));
         location.href = "#/tab/projectDetail";
     };
@@ -89,7 +93,7 @@ function ($scope, $stateParams) {
         });
 
         $scope.displayProject = JSON.parse(localStorage.getItem('tempProject'));
-
+        $scope.displayProject.startDate = new Date($scope.displayProject.startDate);
     });
 
 }])
