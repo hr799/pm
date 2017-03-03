@@ -3,9 +3,9 @@
         <button class="button button-icon button-clear ion-ios-arrow-back" ng-click="$ionicGoBack()"></button>
     </div>
 
-    <div class="h1 title" >Add Diaries</div>
+    <div class="h1 title" >New Diary</div>
     <div class="buttons ">
-        <button class="button button-icon button-clear ion-checkmark-round" side="secondary"></button>
+        <button class="button button-icon button-clear ion-checkmark-round" side="secondary" ng-click="saveDiary()"></button>
     </div>
 </ion-header-bar>
 
@@ -14,11 +14,11 @@
 		<div class="list">
 		  <label class="item item-input item-stacked-label">
 		    <span class="input-label">Title</span>
-		    <input type="text">
+		    <input type="text" ng-model="diary.title">
 		  </label>
 		  <label class="item item-input item-stacked-label">
 		    <span class="input-label">Detail</span>
-		    <input type="text">
+		    <input type="text" ng-model="diary.detail">
 		  </label>
 		  
 		</div>

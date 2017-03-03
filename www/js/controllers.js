@@ -55,7 +55,9 @@ function ($scope, $stateParams) {
         var project = $scope.projectList[id];
         project.id = id;    // add project ID, to be used after.
         localStorage.setItem("tempProject", JSON.stringify(project));
+        window.tempProjectId = id;
         location.href = "#/tab/projectDetail";
+
     };
 }])
 
@@ -88,9 +90,9 @@ function ($scope, $stateParams) {
 function ($scope, $stateParams) {
     $scope.$on('$ionicView.afterEnter', function() {
         var userId = firebase.auth().currentUser.uid;
-        firebase.database().ref('/projects/' + userId).once('value').then(function(snapshot){
+        /*firebase.database().ref('/projects/' + userId).once('value').then(function(snapshot){
             $scope.projectList = snapshot.val();
-        });
+        });*/
 
         $scope.displayProject = JSON.parse(localStorage.getItem('tempProject'));
         $scope.displayProject.startDate = new Date($scope.displayProject.startDate);
@@ -104,15 +106,60 @@ function ($scope, $stateParams) {
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams) {
 
+    $scope.$on('$ionicView.afterEnter', function() {
+        var projectId = tempProjectId;
+        firebase.database().ref('diaries/' + projectId).once('value').then(function(snapshot){
+            $scope.diariesList = snapshot.val();
+            //$scope.diariesList.date = new Date($scope.diariesList.date);  
+            $scope.$apply();
+        });
+    });
 
+    /*$scope.format = function(date){
+        var o = {   
+        "M+" : this.getMonth()+1,                 //月份   
+        "d+" : this.getDate(),                    //日   
+        "h+" : this.getHours(),                   //小时   
+        "m+" : this.getMinutes(),                 //分   
+        "s+" : this.getSeconds(),                 //秒   
+        "q+" : Math.floor((this.getMonth()+3)/3), //季度   
+        "S"  : this.getMilliseconds()             //毫秒   
+      };   
+      if(/(y+)/.test(fmt))   
+        fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));   
+      for(var k in o)   
+        if(new RegExp("("+ k +")").test(fmt))   
+      fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));   
+      return fmt;   
+    }*/
 }])
 
 
-.controller('addDiarieCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('addDiaryCtrl', ['$scope', '$stateParams', '$ionicPopup', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
+function ($scope, $stateParams, $ionicPopup) {
+    if(!$scope.diary) $scope.diary = {};
+    var date = new Date();
+    $scope.diary.date = date.toString();
+    var projectId = tempProjectId;
+    $scope.saveDiary = function(){
+        var userId = firebase.auth().currentUser.uid;
+        
+        if(!$scope.diary.title || !$scope.diary.detail){ //check if input fileds is empty
+            var tempMsg = "Input Required"
+            $ionicPopup.alert({template:tempMsg})
+            return;
+        };
 
+        firebase.database().ref('diaries/' + projectId).push().set($scope.diary, function(res){
+            var tempMsg = "Diary Saved"
+            $ionicPopup.alert({
+                template: tempMsg
+            })
+            location.href="#/tab/diaries";
+        });
+    };
 
 }])
 

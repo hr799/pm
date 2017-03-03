@@ -31,12 +31,12 @@ angular.module('app.routes', [])
     }
   })
 
-  .state('tab.addDiarie', {
+  .state('tab.addDiary', {
     url: '/project',
     views: {
       'project': {
-        templateUrl: 'templates/addDiarie.html',
-        controller: 'addDiarieCtrl'
+        templateUrl: 'templates/addDiary.html',
+        controller: 'addDiaryCtrl'
       }
     }
   })

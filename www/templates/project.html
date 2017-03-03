@@ -11,23 +11,12 @@
 <ion-view title="Project">
   <ion-content padding="true" class="has-header" style="background:#f4f4f4;">
     <div class="card" ng-repeat="(key, item) in projectList">
-      <!-- <div class="item item-text-wrap" ng-click="goToProject(key)">
-        <h2>Name:&nbsp;{{item.name}}</h2>
-        <h2>Client:&nbsp;{{item.client}}</h2>
-        
-        
-        <h2>Description:</h2>
-        <p>{{item.description}}</p>
-      </div> -->
-
-      <div class="list" ng-repeat="(key, item) in projectList">
+      <div class="list" >
       <a class="item item-thumbnail-left" ng-click= "goToProject(key)">
       <img src="img/LarryPage.png">
       <h2>Title:&nbsp;{{item.name}}</h2>
       <p>{{item.description}}</p>
-      <!-- <p>{{key}}</p> -->
       </a>
-
       </div>
     </div>
   </ion-content>
