@@ -174,7 +174,7 @@ function ($scope, $stateParams, $ionicPopup) {
         $scope.diary.date = date.toString();
         
         
-        if($stateParams != "0"){
+        if($stateParams.id != "0"){
             $scope.canDelete = true;
             $scope.title = "Edit Diary";
             $scope.diary = JSON.parse(localStorage.getItem('tempDiary'));
