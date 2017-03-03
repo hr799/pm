@@ -32,7 +32,7 @@ angular.module('app.routes', [])
   })
 
   .state('tab.addDiary', {
-    url: '/project',
+    url: '/addDiary/:id',
     views: {
       'project': {
         templateUrl: 'templates/addDiary.html',
@@ -69,6 +69,16 @@ angular.module('app.routes', [])
         'project': {
           templateUrl: 'templates/addProject.html',
           controller: 'addProjectCtrl'
+        }
+      }
+    })
+
+    .state('tab.diaryDetail', {
+      url: '/diaryDetail',
+      views: {
+        'project': {
+          templateUrl: 'templates/diaryDetail.html',
+          controller: 'diaryDetailCtrl'
         }
       }
     })

@@ -1,0 +1,27 @@
+<ion-header-bar align-title="center" class="bar-stable">
+    <div class="buttons">
+        <button class="button button-icon button-clear ion-ios-arrow-back" ng-click="$ionicGoBack()"></button>
+    </div>
+    <div class="h1 title login-title" >Diary Detail</div>
+    <div class="buttons">
+        <button class="button button-icon button-clear ion-edit" ui-sref="tab.addDiary({id: 0})"></button>
+    </div>
+</ion-header-bar>
+
+<ion-view>
+	<ion-content>
+		<div class="card">
+		  <div class="item item-divider">
+		    {{displayDiary.title}}
+		  </div>
+		  <div class="item item-text-wrap">
+		    {{displayDiary.detail}}
+
+		  </div>
+		  <div class="item item-divider">
+		    {{displayDiary.date}}
+		  </div>
+		</div>
+	</ion-content>
+</ion-view>
+

@@ -1,10 +1,21 @@
+<ion-header-bar align-title="center" class="bar-stable">
+    <div class="buttons">
+        <button class="button button-icon button-clear ion-ios-arrow-back" ng-click="$ionicGoBack()"></button>
+    </div>
+    <div class="h1 title login-title" >Project Detail</div>
+    <div class="buttons">
+        <button class="button button-icon button-clear ion-edit" ui-sref="tab.addProject({id: displayProject.id})"></button>
+    </div>
+</ion-header-bar>
+
+
 <ion-view title="Project Name" >
   <ion-content class="has-header">
   	<div class="list" style="margin:0;padding:0">
   		<div style=";background: lightgrey; width: 100%; height: 100%; position: relative;">
   			<div style="width: 100%; height: 200px; background: #3b4047; ">
-          <img src="img/back.png" style="position: absolute; width: 35px; height: 35px; top: 15px; left: 10px;" ng-click="$ionicGoBack()">
-          <img src="img/edit.png" ui-sref="tab.addProject({id: displayProject.id})" style="position: absolute; width: 35px; height: 35px; top: 15px; right: 15px;">
+          <!-- <img src="img/back.png" style="position: absolute; width: 35px; height: 35px; top: 15px; left: 10px;" ng-click="$ionicGoBack()"> -->
+          <!-- <img src="img/edit.png" ui-sref="tab.addProject({id: displayProject.id})" style="position: absolute; width: 35px; height: 35px; top: 15px; right: 15px;"> -->
   			  <p style="text-align: center;"><img src="img/pm.png" style="position: relative; width: 120px; height: 120px; top: 40px; border-radius: 60px;"></p>
         </div>
 

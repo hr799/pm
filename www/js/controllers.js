@@ -105,15 +105,25 @@ function ($scope, $stateParams) {
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams) {
-
+    var projectId = tempProjectId;
     $scope.$on('$ionicView.afterEnter', function() {
-        var projectId = tempProjectId;
+        
         firebase.database().ref('diaries/' + projectId).once('value').then(function(snapshot){
             $scope.diariesList = snapshot.val();
             //$scope.diariesList.date = new Date($scope.diariesList.date);  
             $scope.$apply();
         });
     });
+
+
+    $scope.goToDiary = function(id){
+        var diary = $scope.diariesList[id];
+        diary.id = id;    // add diary ID, to be used after.
+        localStorage.setItem("tempDiary", JSON.stringify(diary));
+        window.tempDiaryId = id;
+        location.href = "#/tab/diaryDetail";
+
+    };
 
     /*$scope.format = function(date){
         var o = {   
@@ -135,15 +145,44 @@ function ($scope, $stateParams) {
 }])
 
 
+.controller('diaryDetailCtrl', ['$scope', '$stateParams', '$ionicPopup', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+// You can include any angular dependencies as parameters for this function
+// TIP: Access Route Parameters for your page via $stateParams.parameterName
+function ($scope, $stateParams, $ionicPopup) {
+    $scope.$on('$ionicView.afterEnter', function() {
+        var userId = firebase.auth().currentUser.uid;
+        /*firebase.database().ref('/projects/' + userId).once('value').then(function(snapshot){
+            $scope.projectList = snapshot.val();
+        });*/
+
+        $scope.displayDiary = JSON.parse(localStorage.getItem('tempDiary'));
+        $scope.displayDiary.date = new Date($scope.displayDiary.date);
+    });
+}])
+
 .controller('addDiaryCtrl', ['$scope', '$stateParams', '$ionicPopup', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams, $ionicPopup) {
-    if(!$scope.diary) $scope.diary = {};
-    var date = new Date();
-    $scope.diary.date = date.toString();
-    var projectId = tempProjectId;
+    
+    var diaryId = window.tempDiaryId;
+    var projectId = window.tempProjectId;
+    $scope.$on('$ionicView.afterEnter', function() {
+        $scope.title = "New Diary";
+        $scope.diary = {};
+        var date = new Date();
+        $scope.diary.date = date.toString();
+        
+        
+        if($stateParams != "0"){
+            $scope.canDelete = true;
+            $scope.title = "Edit Diary";
+            $scope.diary = JSON.parse(localStorage.getItem('tempDiary'));
+        };
+    });
+
     $scope.saveDiary = function(){
+        
         var userId = firebase.auth().currentUser.uid;
         
         if(!$scope.diary.title || !$scope.diary.detail){ //check if input fileds is empty
@@ -151,15 +190,35 @@ function ($scope, $stateParams, $ionicPopup) {
             $ionicPopup.alert({template:tempMsg})
             return;
         };
+        
 
-        firebase.database().ref('diaries/' + projectId).push().set($scope.diary, function(res){
-            var tempMsg = "Diary Saved"
-            $ionicPopup.alert({
-                template: tempMsg
-            })
-            location.href="#/tab/diaries";
-        });
+        
+        if($scope.diary.id){
+            firebase.database().ref('diaries/' + projectId + '/' + $scope.diary.id).update($scope.diary, function(error){
+                tempMsg = "Diary Updated!";
+                $ionicPopup.alert({template:tempMsg})
+                location.href="#/tab/diaries";
+            });
+        }else{
+            firebase.database().ref('diaries/' + projectId).push().set($scope.diary, function(res){
+                var tempMsg = "Diary Saved"
+                $ionicPopup.alert({
+                    template: tempMsg
+                })
+                location.href="#/tab/diaries";
+            });
+        }
     };
+
+    $scope.deleteDiary = function(){
+        firebase.database().ref('diaries/' + projectId).child($scope.diary.id).remove(function(error){
+            if(error){
+                alert(error);
+            }else{
+                location.href="#/tab/diaries";
+            }
+        });
+    }
 
 }])
 

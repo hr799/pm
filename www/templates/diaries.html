@@ -5,15 +5,15 @@
 
     <div class="h1 title login-title" >Diaries</div>
     <div class="buttons">
-        <button class="button button-icon button-clear ion-plus" ui-sref="tab.addDiary"></button>
+        <button class="button button-icon button-clear ion-plus" ui-sref="tab.addDiary({id: 0})"></button>
     </div>
 </ion-header-bar>
 
 <ion-view>
 	<ion-content>
-		<div ng-repeat="(key, item) in diariesList">
-			<div class="list card">
-			  <div class="item item-avatar">
+		<div ng-repeat="(key, item) in diariesList" >
+			<div class="list card" ng-click="goToDiary(key)">
+			  <div class="item item-avatar" >
 			    <img src="img/billgate.jpg">		    
 			    <h2>{{item.title}}</h2>
 			    <p>{{item.date}}</p>
