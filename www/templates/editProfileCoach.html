@@ -3,30 +3,29 @@
         <button class="button button-icon button-clear ion-ios-arrow-back" ng-click="$ionicGoBack()"></button>
     </div>
 
-    <div class="h1 title" >Coach</div>
+    <div class="h1 title" >Select Coach</div>
     <div class="buttons">
         <button class="button button-icon button-clear ion-checkmark" ng-click="saveCoach()"></button>
     </div>
 </ion-header-bar>
 
 
-<ion-view title="Edit Coach">
+<ion-view>
 	<ion-content class="has-header" style="background: #f2f3f4;">
         <div class="bar bar-header item-input-inset">
           <label class="item-input-wrapper">
             <i class="icon ion-ios-search placeholder-icon"></i>
-            <input type="search" placeholder="Search">
+            <input type="text" placeholder="Search" ng-model="test">
           </label>
           <button class="button button-postive">
             Cancel
           </button>
         </div>
-
-        <ion-list>
-          <ion-radio ng-model="choice" ng-value="'A'">Greig Wakefield</ion-radio>
-          <ion-radio ng-model="choice" ng-value="'B'">Emily Maxwell</ion-radio>
-          <ion-radio ng-model="choice" ng-value="'B'">Bill Gates</ion-radio>
-        </ion-list>
+        <div ng-repeat="item in users | filter:test">
+          <ion-list >
+            <ion-radio>{{item.name}}</ion-radio>
+          </ion-list>
+        </div>
 		<!-- <div style="width:100%; height:45px; background: white; margin-top: 15px;">
 			<input ng-model="user.coach" type="text" style="font-size: 15px; margin-left: 15px; ">
 		</div>	 -->
