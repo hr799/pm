@@ -360,6 +360,7 @@ function ($scope, $stateParams) {
         //$scope.user = JSON.parse(localStorage.getItem("user"));
         //if(!$scope.user) $scope.user = {};
         $scope.users = [];
+        $scope.coach = "";
         firebase.database().ref('users/').once('value').then(function(snapshot){
             if(snapshot.val()){
                 var users = snapshot.val();
@@ -369,12 +370,13 @@ function ($scope, $stateParams) {
                     var item = users[k];
                     $scope.users.push(item);
                 }
+                $scope.$apply();
             }else{
                 $scope.users ={};
             }
             $scope.search = "";
             
-            //$scope.coach = "";
+            
         });
 
 
@@ -382,13 +384,18 @@ function ($scope, $stateParams) {
     });
     
     
-    // $scope.saveCoach = function(){
-    //     var userId = firebase.auth().currentUser.uid;
-    //     firebase.database().ref('users/' + userId).set($scope.user).then(function(res){
-    //         localStorage.setItem("user", JSON.stringify($scope.user));
-    //         location.href="#/myProfile";
-    //     });
-    // }        
+    $scope.saveCoach = function(){
+        var userId = firebase.auth().currentUser.uid;
+        firebase.database().ref('users/' + userId).set($scope.user).then(function(res){
+            localStorage.setItem("user", JSON.stringify($scope.user));
+            location.href="#/myProfile";
+        });
+    }    
+    $scope.search = "";
+    $scope.cancel = function(){
+        $scope.search = "";
+
+    }    
 
         
 }])
