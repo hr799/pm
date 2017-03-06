@@ -373,6 +373,8 @@ function ($scope, $stateParams) {
                 $scope.users ={};
             }
             $scope.search = "";
+            
+            //$scope.coach = "";
         });
 
 
@@ -521,7 +523,7 @@ function ($scope, $stateParams, $ionicPopup) {
                 if(snapshot.val()){
                     var user = snapshot.val();
                     user.email = firebase.auth().currentUser.email;
-                    firebase.database().ref('users/' + userId).set($scope.user.email);
+                    firebase.database().ref('users/' + userId + '/email').set($scope.user.email);
                     localStorage.setItem("user", JSON.stringify(user));
                 }
             });
