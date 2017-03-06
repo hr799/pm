@@ -15,13 +15,13 @@
         <div class="bar bar-header item-input-inset">
           <label class="item-input-wrapper">
             <i class="icon ion-ios-search placeholder-icon"></i>
-            <input type="text" placeholder="Search" ng-model="test">
+            <input type="text" placeholder="Search" ng-model="search">
           </label>
           <button class="button button-postive">
             Cancel
           </button>
         </div>
-        <div ng-repeat="item in users | filter:test">
+        <div ng-repeat='item in users | filter:{name:search}'>
           <ion-list >
             <ion-radio>{{item.name}}</ion-radio>
           </ion-list>

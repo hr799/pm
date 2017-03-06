@@ -359,18 +359,24 @@ function ($scope, $stateParams) {
     $scope.$on('$ionicView.afterEnter', function() {
         //$scope.user = JSON.parse(localStorage.getItem("user"));
         //if(!$scope.user) $scope.user = {};
-        $scope.users = {};
+        $scope.users = [];
         firebase.database().ref('users/').once('value').then(function(snapshot){
             if(snapshot.val()){
                 var users = snapshot.val();
             }
             if(users){
-                $scope.users = users;
+                for (var k in users){
+                    var item = users[k];
+                    $scope.users.push(item);
+                }
             }else{
                 $scope.users ={};
             }
-
+            $scope.search = "";
         });
+
+
+        
     });
     
     
