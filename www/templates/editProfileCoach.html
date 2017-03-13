@@ -17,11 +17,11 @@
             <i class="icon ion-ios-search placeholder-icon"></i>
             <input type="text" placeholder="Search" ng-model="search">
           </label>
-          <button class="button button-postive" ng-click="cancel()">
+          <!-- <button class="button button-postive" ng-click="cancel()">
             Cancel
-          </button>
+          </button> -->
         </div>
-        <div ng-repeat='item in users | filter:{name:search}'>
+        <div ng-repeat='item in userList | filter:{name:search}'>
           <ion-list >
             <ion-radio ng-model="user.coach">{{item.name}}</ion-radio>
           </ion-list>

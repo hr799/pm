@@ -359,6 +359,48 @@ function ($scope, $stateParams) {
     $scope.$on('$ionicView.afterEnter', function() {
         //$scope.user = JSON.parse(localStorage.getItem("user"));
         //if(!$scope.user) $scope.user = {};
+        $scope.userList = [];
+        $scope.coach = "";
+        $scope.user = JSON.parse(localStorage.getItem("user"));
+        firebase.database().ref('users/').once('value').then(function(snapshot){
+            if(snapshot.val()){
+                var userList = snapshot.val();
+            }
+            if(userList){
+                for (var k in userList){
+                    var item = userList[k];
+                    $scope.userList.push(item);
+                }
+                $scope.$apply();
+            }else{
+                $scope.userList ={};
+            }
+            $scope.search = "";
+        });
+    });
+    
+    
+    $scope.saveCoach = function(){
+        var userId = firebase.auth().currentUser.uid;
+        firebase.database().ref('users/' + userId).set($scope.user).then(function(res){
+            localStorage.setItem("user", JSON.stringify($scope.user));
+            location.href="#/myProfile";
+        });
+    }    
+    
+    
+
+        
+}])
+
+
+.controller('selectCoacheeCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+// You can include any angular dependencies as parameters for this function
+// TIP: Access Route Parameters for your page via $stateParams.parameterName
+function ($scope, $stateParams) {
+    $scope.$on('$ionicView.afterEnter', function() {
+        //$scope.user = JSON.parse(localStorage.getItem("user"));
+        //if(!$scope.user) $scope.user = {};
         $scope.users = [];
         $scope.coach = "";
         firebase.database().ref('users/').once('value').then(function(snapshot){
@@ -375,30 +417,24 @@ function ($scope, $stateParams) {
                 $scope.users ={};
             }
             $scope.search = "";
-            
-            
         });
-
-
-        
     });
-    
-    
-    $scope.saveCoach = function(){
-        var userId = firebase.auth().currentUser.uid;
-        firebase.database().ref('users/' + userId).set($scope.user).then(function(res){
-            localStorage.setItem("user", JSON.stringify($scope.user));
-            location.href="#/myProfile";
-        });
-    }    
-    $scope.search = "";
-    $scope.cancel = function(){
-        $scope.search = "";
 
-    }    
 
-        
+    $scope.saveCoachee = function(){
+
+    }
 }])
+
+
+.controller('coacheeCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+// You can include any angular dependencies as parameters for this function
+// TIP: Access Route Parameters for your page via $stateParams.parameterName
+function ($scope, $stateParams) {
+
+
+}])
+
 
 //add new controller.
 .controller('addProjectCtrl', ['$scope', '$stateParams','$ionicPopup', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
@@ -528,10 +564,11 @@ function ($scope, $stateParams, $ionicPopup) {
 
             firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
                 if(snapshot.val()){
-                    var user = snapshot.val();
+                    //var user = snapshot.val();
+                    $scope.user = snapshot.val();
                     user.email = firebase.auth().currentUser.email;
                     firebase.database().ref('users/' + userId + '/email').set($scope.user.email);
-                    localStorage.setItem("user", JSON.stringify(user));
+                    localStorage.setItem("user", JSON.stringify($scope.user));
                 }
             });
             

@@ -124,6 +124,17 @@ angular.module('app.routes', [])
         controller: 'editProfileCoachCtrl'
       })
 
+    .state('selectCoachee', {
+        url: '/selectCoachee',
+        templateUrl: 'templates/selectCoachee.html',
+        controller: 'selectCoacheeCtrl'
+      })
+
+    .state('coachee', {
+        url: '/coachee',
+        templateUrl: 'templates/coachee.html',
+        controller: 'coacheeCtrl'
+      })
 
 
 
