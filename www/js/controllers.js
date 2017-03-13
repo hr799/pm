@@ -360,8 +360,8 @@ function ($scope, $stateParams) {
         //$scope.user = JSON.parse(localStorage.getItem("user"));
         //if(!$scope.user) $scope.user = {};
         $scope.userList = [];
-        $scope.coach = "";
-        $scope.user = JSON.parse(localStorage.getItem("user"));
+        //$scope.coach = "";
+        
         firebase.database().ref('users/').once('value').then(function(snapshot){
             if(snapshot.val()){
                 var userList = snapshot.val();
@@ -379,8 +379,9 @@ function ($scope, $stateParams) {
         });
     });
     
-    
+    $scope.user = JSON.parse(localStorage.getItem("user"));
     $scope.saveCoach = function(){
+        
         var userId = firebase.auth().currentUser.uid;
         firebase.database().ref('users/' + userId).set($scope.user).then(function(res){
             localStorage.setItem("user", JSON.stringify($scope.user));
@@ -564,16 +565,18 @@ function ($scope, $stateParams, $ionicPopup) {
 
             firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
                 if(snapshot.val()){
-                    //var user = snapshot.val();
-                    $scope.user = snapshot.val();
+                    var user = snapshot.val();
+                    if(!$scope.user) user ={};
                     user.email = firebase.auth().currentUser.email;
-                    firebase.database().ref('users/' + userId + '/email').set($scope.user.email);
-                    localStorage.setItem("user", JSON.stringify($scope.user));
+                    firebase.database().ref('users/' + userId + '/email').set(user.email);
+                    localStorage.setItem("user", JSON.stringify(user));
+                    
                 }
+                location.reload();
+                location.href = "#tab/home";
             });
             
-            location.reload();
-            location.href = "#tab/home";
+            
             
 
         }, function(error){ // if login failed
