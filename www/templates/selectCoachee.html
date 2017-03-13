@@ -1,0 +1,30 @@
+<ion-header-bar align-title="center" class="bar-stable">
+    <div class="buttons">
+        <button class="button button-icon button-clear ion-ios-arrow-back" ui-sref="coachee"></button>
+    </div>
+
+    <div class="h1 title" >Select Coachee</div>
+    <div class="buttons">
+        <button class="button button-icon button-clear ion-checkmark" ng-click="saveCoachee()"></button>
+    </div>
+</ion-header-bar>
+
+
+<ion-view>
+	<ion-content class="has-header" style="background: #f2f3f4;">
+        <div class="bar bar-header item-input-inset">
+          <label class="item-input-wrapper">
+            <i class="icon ion-ios-search placeholder-icon"></i>
+            <input type="text" placeholder="Search" ng-model="search">
+          </label>
+          <!-- <button class="button button-postive" ng-click="cancel()">
+            Cancel
+          </button> -->
+        </div>
+        <div ng-repeat='item in users | filter:{name:search}'>
+          <ion-list >
+            <ion-checkbox ng-model="user.coach">{{item.name}}</ion-checkbox>
+          </ion-list>
+        </div>
+	</ion-content>
+</ion-view>
