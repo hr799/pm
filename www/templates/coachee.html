@@ -9,13 +9,14 @@
     </div>
 </ion-header-bar>
 
-
 <ion-view>
 	<ion-content class="has-header" style="background: #f2f3f4;">
-        <ul class="list">
-		    <li class="item">
-		     
-		    </li>
-		</ul>
+        <div class="list">
+            <a class="item item-avatar" href="#" ng-repeat="(key, item) in coacheeArr">
+                <img ng-src={{item.imageUrl}}>
+                <h2>{{item.name}}</h2>
+                <p>{{item.email}}</p>
+            </a>
+        </div>
 	</ion-content>
 </ion-view>

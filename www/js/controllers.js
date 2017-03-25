@@ -1,9 +1,9 @@
 angular.module('app.controllers', [])
   
-.controller('homeCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('homeCtrl', ['$scope', '$stateParams', '$ionicPopup', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
+function ($scope, $stateParams, $ionicPopup) {
     var pages = "#/tab/home+#/tab/notification+#/tab/project";
     $scope.$on('$ionicView.afterEnter', function() {
         if (pages.indexOf(location.hash) > -1) {
@@ -16,6 +16,17 @@ function ($scope, $stateParams) {
                 $scope.user = {};
             }
         }
+
+        $scope.userList = [];
+        firebase.database().ref('users/').once('value').then(function(snapshot){
+            if(snapshot.val()){
+                var userList = snapshot.val();
+                for (var k in userList){
+                    var item = userList[k];
+                    $scope.userList.push(item);
+                }
+            }
+        });
     });
     $scope.$on('$ionicView.afterLeave', function() {
         if (pages.indexOf(location.hash) > -1) return;
@@ -63,22 +74,189 @@ function ($scope, $stateParams) {
 
 
 //add notificationCtrl
-.controller('notificationCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('notificationCtrl', ['$scope', '$stateParams', '$ionicPopup', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
+function ($scope, $stateParams, $ionicPopup) {
     var pages = "#/tab/home+#/tab/notification+#/tab/project";
     $scope.$on('$ionicView.afterEnter', function() {
         if (pages.indexOf(location.hash) > -1) {
             var tabs =document.getElementsByTagName('ion-tabs');
             angular.element(tabs).removeClass("tabs-item-hide");
         }
+        $scope.getNotificationList();
     });
     $scope.$on('$ionicView.afterLeave', function() {
         if (pages.indexOf(location.hash) > -1) return;
         var tabs =document.getElementsByTagName('ion-tabs');
         angular.element(tabs).addClass("tabs-item-hide");
     });
+
+    $scope.user = JSON.parse(localStorage.getItem('user'));
+    $scope.getNotificationList = function() {
+        firebase.database().ref('notification/' + $scope.user.id).once('value').then(function(snapshot){
+            if (snapshot.val) {
+                var tmpList = snapshot.val();
+                $scope.msgList = [];
+                for (var key in tmpList) {
+                    var obj = tmpList[key];
+                    obj.key = key;
+                    $scope.msgList.push(obj);
+                }
+                $scope.$apply();
+            };
+            $scope.$broadcast('scroll.refreshComplete');
+        });
+    };
+
+    $scope.dealMsg = function(object) {
+        $scope.msgKey = object.key;
+        if (object.type == "Change Coach") {
+            // Receieve Message From The Coachee.
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Comfirm New Coachee',
+                template: 'Are you sure to add ' + object.name + ' to be your coachee?'
+            });
+            confirmPopup.then(function(res) {
+                if(res) {
+                    $scope.addCoachee(object);
+                }
+            });
+        } else if (object.type == "Ask Coachee") {
+            // Receieve Message From The Coach.
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Comfirm New Coach',
+                template: 'Are you sure to add ' + object.name + ' to be your coach?'
+            });
+            confirmPopup.then(function(res) {
+                if(res) {
+                    $scope.addCoach(object);
+                }
+            });
+        } else if (object.type == "Comfirm") {
+            // An alert dialog
+            var alertPopup = $ionicPopup.alert({
+                title: 'Get Message From' + object.name,
+                template: object.title
+            });
+            alertPopup.then(function(res) {
+                removeNotification(object, object.key);
+            });
+            firebase.database().ref('users/' + $scope.user.id).once('value').then(function(snapshot){
+                if (snapshot.val()) localStorage.setItem("user", JSON.stringify(snapshot.val()));     
+            });
+        };
+    };
+
+    $scope.addCoachee = function(coachee) {
+        $scope.coach = JSON.parse(localStorage.getItem('user'));
+        $scope.coachee = coachee;
+        changeRelation($scope.coach, $scope.coachee, true);
+    };
+
+    $scope.addCoach = function(coach) {
+        $scope.coach = coach;
+        $scope.coachee = JSON.parse(localStorage.getItem('user'));
+        var oldCoach = getUserItem($scope.coachee.coach);
+        if (oldCoach) {$scope.coachee.oldCoachId = oldCoach.id};
+        $scope.coachee.coach = coach.name;
+        changeRelation($scope.coach, $scope.coachee, false);
+    };
+
+    var changeRelation = function(coach, coachee, isAddCoachee) {
+        // set coachee's msg
+        var coacheeCopy = getCopyItem(coachee);
+        var coachCopy = getCopyItem(coach);
+
+        firebase.database().ref('users/' + coachee.id).set(coacheeCopy).then(function(res){
+            if ($scope.coachee.oldCoachId) {
+                // set old coach's coachee
+                firebase.database().ref('coach/' + $scope.coachee.oldCoachId).once('value').then(function(snapshot){
+                    if (snapshot.val()) {
+                        var arr = snapshot.val();
+                        for (var k in arr) {
+                            if (arr[k].id == $scope.coachee.id) {
+                                var ref = firebase.database().ref('coach/' + $scope.coachee.oldCoachId);
+                                ref.child(k).remove();
+                            };
+                        }
+                        // set new coach's coachee
+                        firebase.database().ref('coach/' + $scope.coach.id).push().set(coacheeCopy, function(res){                
+                            // notification coachee
+                            if (isAddCoachee) {
+                                sendNotification(coacheeCopy, isAddCoachee); 
+                                removeNotification(coachCopy, $scope.msgKey); 
+                            } else {
+                                sendNotification(coachCopy, isAddCoachee);
+                                removeNotification(coacheeCopy, $scope.msgKey); 
+                            };
+                        });
+                    };
+                });
+            } else {
+                // set new coach's coachee
+                firebase.database().ref('coach/' + $scope.coach.id).push().set(coacheeCopy, function(res){                
+                    // notification coachee
+                    if (isAddCoachee) {
+                        sendNotification(coacheeCopy, isAddCoachee); 
+                        removeNotification(coachCopy, coachCopy.key); 
+                    } else {
+                        sendNotification(coachCopy, isAddCoachee);
+                        removeNotification(coacheeCopy, coacheeCopy.key); 
+                    };
+                });   
+            }
+        });
+    }
+
+    var getCopyItem = function(user) {
+        var itemCopy = {};
+        itemCopy.id = user.id;
+        itemCopy.name = user.name;
+        itemCopy.email = user.email;
+        itemCopy.coach = user.coach;
+        itemCopy.oldCoachId = user.oldCoachId;
+        itemCopy.key = user.key;
+        return itemCopy;
+    }
+
+    $scope.userList = [];
+    firebase.database().ref('users/').once('value').then(function(snapshot){
+        if(snapshot.val()){
+            var userList = snapshot.val();
+            for (var k in userList){
+                var item = userList[k];
+                $scope.userList.push(item);
+            }
+        }
+    });
+    var getUserItem = function(name, isAddCoachee) {
+        for (var i = $scope.userList.length - 1; i >= 0; i--) {
+            var item = $scope.userList[i];
+            if (item.name == name) {
+                return item;
+            };
+        };
+    }
+
+    var sendNotification = function(user, isAddCoachee) {
+        var title = "";
+        if (isAddCoachee) {
+            title = user.name + " has added.";
+        } else {
+            title = user.name + " has been added.";
+        };
+        user.title = title;
+        user.type = "Comfirm";
+        firebase.database().ref('notification/' + user.id).push().set(user, function(res){
+            alert("A comfirm message has sent to the target.");   
+        });
+    }
+
+    var removeNotification = function(user, key) {
+        firebase.database().ref('notification/' + user.id).child(key).remove(function(error){});
+        $scope.getNotificationList();
+    }
 }])
 
 
@@ -357,48 +535,50 @@ function ($scope, $stateParams) {
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams) {
     $scope.$on('$ionicView.afterEnter', function() {
-        //$scope.user = JSON.parse(localStorage.getItem("user"));
-        //if(!$scope.user) $scope.user = {};
         $scope.userList = [];
-        //$scope.coach = "";
-        
         firebase.database().ref('users/').once('value').then(function(snapshot){
             if(snapshot.val()){
                 var userList = snapshot.val();
-            }
-            if(userList){
                 for (var k in userList){
                     var item = userList[k];
                     $scope.userList.push(item);
                 }
                 $scope.$apply();
-            }else{
-                $scope.userList ={};
             }
             $scope.search = "";
         });
     });
     
     $scope.user = JSON.parse(localStorage.getItem("user"));
+    if ($scope.user.coach) $scope.oldCoachName = $scope.user.coach;
     $scope.saveCoach = function(){
-        
+        // push notification
         var userId = firebase.auth().currentUser.uid;
-        firebase.database().ref('users/' + userId).set($scope.user).then(function(res){
-            localStorage.setItem("user", JSON.stringify($scope.user));
-            location.href="#/myProfile";
-        });
-    }    
-    
-    
+        var coach = getUserItem($scope.user.coach);
+        $scope.user.type = "Change Coach";
+        if ($scope.oldCoachName) {
+            var oldCoach = getUserItem($scope.oldCoachName);
+            $scope.user.oldCoachId = oldCoach.id;
+        }
 
-        
+        firebase.database().ref('notification/' + coach.id).push().set($scope.user, function(res){
+            alert("A message has sent to the coach.");   
+        });
+    }
+    var getUserItem = function(name) {
+        for (var i = $scope.userList.length - 1; i >= 0; i--) {
+            var item = $scope.userList[i];
+            if (item.name == name) {
+                return item;
+            };
+        };
+    }
 }])
 
-
-.controller('selectCoacheeCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('selectCoacheeCtrl', ['$scope', '$stateParams', '$http', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
+function ($scope, $stateParams, $http) {
     $scope.$on('$ionicView.afterEnter', function() {
         //$scope.user = JSON.parse(localStorage.getItem("user"));
         //if(!$scope.user) $scope.user = {};
@@ -418,12 +598,53 @@ function ($scope, $stateParams) {
                 $scope.users ={};
             }
             $scope.search = "";
+            getCoachee();
         });
+
     });
 
+    var getCoachee = function() {
+        $scope.coacheeArr = [];
+        var userId = firebase.auth().currentUser.uid;
+        firebase.database().ref('coach/' + userId).once('value').then(function(snapshot){
+            if (snapshot.val()) {
+                $scope.coacheeArr = snapshot.val();
+                var tmpUser = [];
+                var tag = 0;
+                for (var i = 0; i < $scope.users.length; i++) {
+                    var user = $scope.users[i];
+                    for (var k in $scope.coacheeArr) {
+                        var item = $scope.coacheeArr[k];
+                        if (item.name == user.name) {
+                            tag = 1;
+                            break;
+                        };
+                    }
+                    if (!tag) tmpUser.push(user);  
+                    tag = 0;
+                };
+                $scope.users = tmpUser;
+                $scope.$apply();
+            }
+        })
+    }
 
-    $scope.saveCoachee = function(){
+    $scope.saveCoachee = function() {
+        for (var i = 0; i < $scope.users.length; i++) {
+            var item = $scope.users[i];
+            if (item.checked) {
+                sendNotification(item);
+            };
+        };
+    };
 
+    var sendNotification = function(user) {
+        // send notification
+        $scope.user = JSON.parse(localStorage.getItem("user"));
+        $scope.user.type = "Ask Coachee";
+        firebase.database().ref('notification/' + user.id).push().set($scope.user, function(res){
+            alert("A message has sent to the coachee named " + user.name + ".");   
+        });
     }
 }])
 
@@ -432,7 +653,16 @@ function ($scope, $stateParams) {
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams) {
-
+    $scope.$on('$ionicView.afterEnter', function() {
+        $scope.coacheeArr = [];
+        var userId = firebase.auth().currentUser.uid;
+        firebase.database().ref('coach/' + userId).once('value').then(function(snapshot){
+            if (snapshot.val()) {
+                $scope.coacheeArr = snapshot.val();
+                $scope.$apply();
+            }
+        });
+    });
 
 }])
 
@@ -564,36 +794,32 @@ function ($scope, $stateParams, $ionicPopup) {
             var userId = firebase.auth().currentUser.uid;
 
             firebase.database().ref('/users/' + userId).once('value').then(function(snapshot) {
-                if(snapshot.val()){
+                if (snapshot.val()) {
                     var user = snapshot.val();
-                    if(!$scope.user) user ={};
+                    if (!$scope.user) user ={};
                     user.email = firebase.auth().currentUser.email;
-                    firebase.database().ref('users/' + userId + '/email').set(user.email);
+                    user.id = firebase.auth().currentUser.uid;
+                    firebase.database().ref('users/' + user.id).set(user);
                     localStorage.setItem("user", JSON.stringify(user));
-                    
                 }
-                location.reload();
+                // location.reload();
                 location.href = "#tab/home";
             });
-            
-            
-            
-
-        }, function(error){ // if login failed
+        }, function(error) { // if login failed
             console.log(error);
             var errorCode = error.code;
             var errorMessage = error.message;
-            if(errorCode=="auth/user-not-found"){
+            if (errorCode=="auth/user-not-found") {
                 $ionicPopup.alert({
                     title:'Invalid email',
                     template:'User not found'
                 })
-            }else if(errorCode=="auth/wrong-password"){
+            } else if (errorCode=="auth/wrong-password") {
                 $ionicPopup.alert({
                     title:'invalid Password',
                     template:'The password is Invalid'
                 })
-            }else if(errorCode=="auth/invalid-email"){
+            } else if (errorCode=="auth/invalid-email") {
                 $ionicPopup.alert({
                     title:'format error',
                     template:'The email address is badly formatted'
@@ -632,14 +858,14 @@ function ($scope, $stateParams, $ionicPopup) {
                 })
             } else {
                 firebase.auth().createUserWithEmailAndPassword($scope.user.email, $scope.user.psw).then(function(msg) {
-                  // Handle Errors here.
-                  console.log(msg);
-                  alert("User created!");
-                  location.href = "#tab/login";
-                    }, function(error){
-                        console.log(error);
-                  var errorCode = error.code;
-                  var errorMessage = error.message;
+                    // Handle Errors here.
+                    console.log(msg);
+                    alert("User created!");
+                    location.href = "#tab/login";
+                }, function(error){
+                    console.log(error);
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
                     if(errorCode=='auth/email-already-in-use'){
                         $ionicPopup.alert({
                         title:'Invalid email',

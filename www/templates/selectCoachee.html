@@ -23,7 +23,7 @@
         </div>
         <div ng-repeat='item in users | filter:{name:search}'>
           <ion-list >
-            <ion-checkbox ng-model="user.coach">{{item.name}}</ion-checkbox>
+            <ion-checkbox ng-model="item.checked">{{item.name}}</ion-checkbox>
           </ion-list>
         </div>
 	</ion-content>
