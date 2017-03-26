@@ -115,7 +115,8 @@ function ($scope, $stateParams, $ionicPopup) {
             // Receieve Message From The Coachee.
             var confirmPopup = $ionicPopup.confirm({
                 title: 'Comfirm New Coachee',
-                template: 'Are you sure to add ' + object.name + ' to be your coachee?'
+                template: object.name + ' has asked you to be their coach'
+                //template: 'Are you sure to add ' + object.name + ' to be your coachee?'
             });
             confirmPopup.then(function(res) {
                 if(res) {
@@ -126,7 +127,8 @@ function ($scope, $stateParams, $ionicPopup) {
             // Receieve Message From The Coach.
             var confirmPopup = $ionicPopup.confirm({
                 title: 'Comfirm New Coach',
-                template: 'Are you sure to add ' + object.name + ' to be your coach?'
+                template: object.name + ' has asked you to be their coachee' 
+                //template: 'Are you sure to add ' + object.name + ' to be your coach?'
             });
             confirmPopup.then(function(res) {
                 if(res) {
@@ -273,7 +275,9 @@ function ($scope, $stateParams) {
         });*/
 
         $scope.displayProject = JSON.parse(localStorage.getItem('tempProject'));
-        $scope.displayProject.startDate = new Date($scope.displayProject.startDate);
+        var date = new Date($scope.displayProject.startDate);
+        $scope.displayProject.startDate = date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear();
+        //$scope.displayProject.startDate = new Date($scope.displayProject.startDate);
     });
 
 }])
