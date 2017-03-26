@@ -115,7 +115,7 @@ function ($scope, $stateParams, $ionicPopup) {
             // Receieve Message From The Coachee.
             var confirmPopup = $ionicPopup.confirm({
                 title: 'Comfirm New Coachee',
-                template: object.name + ' has asked you to be their coach',
+                template: object.name + ' has asked you to be his coach',
                 okText: "Accept",
                 cancelText: "Decline"
                 //template: 'Are you sure to add ' + object.name + ' to be your coachee?'
@@ -131,7 +131,7 @@ function ($scope, $stateParams, $ionicPopup) {
             // Receieve Message From The Coach.
             var confirmPopup = $ionicPopup.confirm({
                 title: 'Comfirm New Coach',
-                template: object.name + ' has asked you to be their coachee',
+                template: object.name + ' has asked you to be his coachee',
                 okText: "Accept",
                 canceltext: "Decline"
                 //template: 'Are you sure to add ' + object.name + ' to be your coach?'
@@ -146,7 +146,7 @@ function ($scope, $stateParams, $ionicPopup) {
         } else if (object.type == "Comfirm") {
             // An alert dialog
             var alertPopup = $ionicPopup.alert({
-                title: 'Get Message From' + object.name,
+                title: 'Message From ' + object.name,
                 template: object.title
             });
             alertPopup.then(function(res) {
@@ -190,33 +190,32 @@ function ($scope, $stateParams, $ionicPopup) {
                                 ref.child(k).remove();
                             };
                         }
-                        // set new coach's coachee
-                        firebase.database().ref('coach/' + $scope.coach.id).push().set(coacheeCopy, function(res){                
-                            // notification coachee
-                            if (isAddCoachee) {
-                                sendNotification(coacheeCopy, isAddCoachee); 
-                                removeNotification(coachCopy, $scope.msgKey); 
-                            } else {
-                                sendNotification(coachCopy, isAddCoachee);
-                                removeNotification(coacheeCopy, $scope.msgKey); 
-                            };
-                        });
                     };
+                    // set new coach's coachee
+                    setRelationShip(coacheeCopy, coachCopy, isAddCoachee);
                 });
             } else {
                 // set new coach's coachee
-                firebase.database().ref('coach/' + $scope.coach.id).push().set(coacheeCopy, function(res){                
-                    // notification coachee
-                    if (isAddCoachee) {
-                        sendNotification(coacheeCopy, isAddCoachee); 
-                        removeNotification(coachCopy, $scope.msgkey); 
-                    } else {
-                        sendNotification(coachCopy, isAddCoachee);
-                        removeNotification(coacheeCopy, $scope.msgkey); 
-                    };
-                });   
+                setRelationShip(coacheeCopy, coachCopy, isAddCoachee);
             }
         });
+    }
+
+    var setRelationShip = function(coacheeCopy, coachCopy, isAddCoachee) {
+        // set new coach's coachee
+        firebase.database().ref('coach/' + $scope.coach.id).push().set(coacheeCopy, function(res){                
+            // notification
+            if (isAddCoachee) {
+                sendNotification(coacheeCopy, isAddCoachee); 
+                removeNotification(coachCopy, $scope.msgKey); 
+            } else {
+                sendNotification(coachCopy, isAddCoachee);
+                removeNotification(coacheeCopy, $scope.msgKey); 
+            };
+            firebase.database().ref('users/' + $scope.user.id).once('value').then(function(snapshot){
+                if (snapshot.val()) localStorage.setItem("user", JSON.stringify(snapshot.val()));     
+            });
+        });   
     }
 
     var getCopyItem = function(user) {
@@ -265,7 +264,7 @@ function ($scope, $stateParams, $ionicPopup) {
     }
 
     var removeNotification = function(user, key) {
-        firebase.database().ref('notification/' + user.id).child(key).remove(function(error){
+        firebase.database().ref('notification/' + $scope.user.id).child(key).remove(function(error){
             $scope.getNotificationList();
         });
         
