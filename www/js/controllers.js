@@ -115,24 +115,32 @@ function ($scope, $stateParams, $ionicPopup) {
             // Receieve Message From The Coachee.
             var confirmPopup = $ionicPopup.confirm({
                 title: 'Comfirm New Coachee',
-                template: object.name + ' has asked you to be their coach'
+                template: object.name + ' has asked you to be their coach',
+                okText: "Accept",
+                cancelText: "Decline"
                 //template: 'Are you sure to add ' + object.name + ' to be your coachee?'
             });
             confirmPopup.then(function(res) {
-                if(res) {
+                if (res) {
                     $scope.addCoachee(object);
+                } else {
+                    removeNotification($scope.user, object.key);
                 }
             });
         } else if (object.type == "Ask Coachee") {
             // Receieve Message From The Coach.
             var confirmPopup = $ionicPopup.confirm({
                 title: 'Comfirm New Coach',
-                template: object.name + ' has asked you to be their coachee' 
+                template: object.name + ' has asked you to be their coachee',
+                okText: "Accept",
+                canceltext: "Decline"
                 //template: 'Are you sure to add ' + object.name + ' to be your coach?'
             });
             confirmPopup.then(function(res) {
-                if(res) {
+                if (res) {
                     $scope.addCoach(object);
+                } else {
+                    removeNotification($scope.user, object.key);
                 }
             });
         } else if (object.type == "Comfirm") {
@@ -142,7 +150,7 @@ function ($scope, $stateParams, $ionicPopup) {
                 template: object.title
             });
             alertPopup.then(function(res) {
-                removeNotification(object, object.key);
+                removeNotification($scope.user, object.key);
             });
             firebase.database().ref('users/' + $scope.user.id).once('value').then(function(snapshot){
                 if (snapshot.val()) localStorage.setItem("user", JSON.stringify(snapshot.val()));     
@@ -201,10 +209,10 @@ function ($scope, $stateParams, $ionicPopup) {
                     // notification coachee
                     if (isAddCoachee) {
                         sendNotification(coacheeCopy, isAddCoachee); 
-                        removeNotification(coachCopy, coachCopy.key); 
+                        removeNotification(coachCopy, $scope.msgkey); 
                     } else {
                         sendNotification(coachCopy, isAddCoachee);
-                        removeNotification(coacheeCopy, coacheeCopy.key); 
+                        removeNotification(coacheeCopy, $scope.msgkey); 
                     };
                 });   
             }
@@ -216,9 +224,9 @@ function ($scope, $stateParams, $ionicPopup) {
         itemCopy.id = user.id;
         itemCopy.name = user.name;
         itemCopy.email = user.email;
-        itemCopy.coach = user.coach;
-        itemCopy.oldCoachId = user.oldCoachId;
-        itemCopy.key = user.key;
+        itemCopy.coach = user.coach ? user.coach :"";
+        itemCopy.oldCoachId = user.oldCoachId ? user.oldCoachId:"";
+        itemCopy.key = user.key ? user.key:"";
         return itemCopy;
     }
 
@@ -248,16 +256,19 @@ function ($scope, $stateParams, $ionicPopup) {
         } else {
             title = user.name + " has been added.";
         };
-        user.title = title;
-        user.type = "Comfirm";
-        firebase.database().ref('notification/' + user.id).push().set(user, function(res){
+        $scope.user.title = title;
+        $scope.user.type = "Comfirm";
+        firebase.database().ref('notification/' + user.id).push().set($scope.user, function(res){
             alert("A comfirm message has sent to the target.");   
+
         });
     }
 
     var removeNotification = function(user, key) {
-        firebase.database().ref('notification/' + user.id).child(key).remove(function(error){});
-        $scope.getNotificationList();
+        firebase.database().ref('notification/' + user.id).child(key).remove(function(error){
+            $scope.getNotificationList();
+        });
+        
     }
 }])
 
@@ -567,6 +578,7 @@ function ($scope, $stateParams) {
 
         firebase.database().ref('notification/' + coach.id).push().set($scope.user, function(res){
             alert("A message has sent to the coach.");   
+            location.href="#/myProfile";
         });
     }
     var getUserItem = function(name) {
@@ -638,6 +650,7 @@ function ($scope, $stateParams, $http) {
             var item = $scope.users[i];
             if (item.checked) {
                 sendNotification(item);
+                location.href="#/coachee";
             };
         };
     };
@@ -647,7 +660,7 @@ function ($scope, $stateParams, $http) {
         $scope.user = JSON.parse(localStorage.getItem("user"));
         $scope.user.type = "Ask Coachee";
         firebase.database().ref('notification/' + user.id).push().set($scope.user, function(res){
-            alert("A message has sent to the coachee named " + user.name + ".");   
+            alert("A message has sent to " + user.name + ".");   
         });
     }
 }])
