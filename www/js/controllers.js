@@ -421,11 +421,20 @@ function ($scope, $stateParams, $ionicPopup) {
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams, $ionicActionSheet, $timeout,$cordovaCamera, $cordovaImagePicker) {
     $scope.$on('$ionicView.afterEnter', function(){
+        $scope.coacheeArr = [];
+        var userId = firebase.auth().currentUser.uid;
+        firebase.database().ref('coach/' + userId).once('value').then(function(snapshot){
+            if (snapshot.val()) {
+                $scope.coacheeArr = snapshot.val();
+                $scope.$apply();
+            }
+        });
+        
         // Create a root reference
         var storageRef = firebase.storage().ref();
 
         // Create a reference to 'mountains.jpg'
-        var imgRef = storageRef.child('img.jpg');
+        var imgRef = storageRef.child(userId+'img.jpg');
 
         //check if login successful, if not, return to login page.
         if(!firebase.auth().currentUser){
@@ -500,12 +509,24 @@ function ($scope, $stateParams, $ionicActionSheet, $timeout,$cordovaCamera, $cor
                     quality: 80
                     };
 
-                    $cordovaImagePicker.getPictures(options)
-                        .then(function (results) {
-                        for (var i = 0; i < results.length; i++) {
-                            console.log('Image URI: ' + results[i]);
-                        }
-                        }, function(error) {
+                    $cordovaImagePicker.getPictures(options).then(function (results) {
+                        console.log('Image URI: ' + results[0]);
+                        imgRef.put(results[0]).on('state_changed', function(snapshot){
+                            var profileImgURL = snapshot.downloadURL;
+                            //save profile image url to firebase database..
+                            var user = JSON.parse(localStorage.getItem("user"));
+                            user.imageUrl = profileImgURL;
+                            storageRef('users/' + userId).set($scope.user).then(function(res){
+                                console.log(res);
+                                 //update local user info..
+                                localStorage.setItem("user", stringify(user));
+                            });
+                        }, function(error){
+                            //error code here
+                        }, function(){
+                        //success
+                        }) 
+                    }, function(error) {
                         // error getting photos
                         });
                     }
@@ -541,6 +562,24 @@ function ($scope, $stateParams) {
         });
     }
             
+}])
+
+
+.controller('editProfileYearGoalCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+// You can include any angular dependencies as parameters for this function
+// TIP: Access Route Parameters for your page via $stateParams.parameterName
+function ($scope, $stateParams) {
+    $scope.user = JSON.parse(localStorage.getItem("user"));
+    if(!$scope.user) $scope.user = {};
+
+    $scope.saveYearGoal = function(){
+        var userId = firebase.auth().currentUser.uid;
+        firebase.database().ref('users/' + userId).set($scope.user).then(function(res){
+            localStorage.setItem("user", JSON.stringify($scope.user));
+            location.href="#/myProfile";
+        });
+    }
+
 }])
 
 

@@ -10,7 +10,7 @@
 	<ion-content class="has-header">
 		<div style="width: 100%; height: 100%; padding-left: 11px; position: relative;">
 			<div style="width: 100%; height: 160px; border-bottom: 1px solid lightgray;position: relative;" >
-				<img src="img/billgate.jpg" style="width: 130px;
+				<img src="user.imageUrl" style="width: 130px;
 				    height: 130px;
 				    display: block;
 				    margin-left: auto;
@@ -41,6 +41,16 @@
 				</div>
 			</div>
 
+			<div style="height: 80px; width: 100%; border-bottom: 1px solid lightgray;position: relative;" ui-sref="editProfileYearGoal">
+				<div style="width:30%; height: 100%; float: left;">
+					<h3 style="margin-top: 15px; font-size: 15px; font-weight: bold;">Year Goal</h3>
+				</div>
+				<div style="width: 70%; height:100%; float: right; ">
+					<p ng-model="name" id="yearGoal" style="font-size: 15px; margin-top: 15px; text-align: left; margin-right: 35px;">{{user.yearGoal}}</p>
+					<img src="img/right.png" style="width: 20px; height: 20px; position: absolute; right: 10px; top: 15px;">
+				</div>
+			</div>
+
 
 			<div style="height: 50px; width: 100%; border-bottom: 1px solid lightgray;position: relative;">
 				<div style="width:30%; height: 100%; float: left;">
@@ -52,15 +62,28 @@
 				</div>
 			</div>
 
-			<div style="height: 50px; width: 100%; border-bottom: 1px solid lightgray;position: relative;">
+			<div style="height:50px; width: 100%; position: relative;">
 				<div style="width:30%; height: 100%; float: left;">
 					<h3 style="margin-top: 15px; font-size: 15px; font-weight: bold;">Coachee</h3>
 				</div>
-				<div style="width: 70%; height:100%; float: right"; ui-sref="coachee">
-					<!-- <p style="font-size: 15px; margin-top: 15px; text-align: right; margin-right: 35px;">{{user.coach}}</p> -->
+				<div style="width: 70%; height:100%; float: right"; ui-sref="selectCoachee">
 					<img src="img/right.png" style="width: 20px; height: 20px; position: absolute; right: 10px; top: 15px;">
 				</div>
+				<div ng-repeat="(key, item) in coacheeArr" style="border-bottom: 1px solid lightgray;">
+					<p style="font-size: 15px;padding-left:20px;">{{item.name}}</p>
+				</div>
 			</div>
+
+			
 		</div>
+		<!-- <div style="width: 100%; height: 100%; position: relative;">
+			<div class="list">
+			  <div class="item item-divider" ui-sref="selectCoachee">Coachee</div>
+			  <a class="item" href="#" style="text-align: right;" ng-repeat="(key, item) in coacheeArr">
+			  	<p>{{item.name}}</p>
+			  </a>
+			</div>
+		</div> -->
+		
 	</ion-content>
 </ion-view>

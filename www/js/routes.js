@@ -118,6 +118,12 @@ angular.module('app.routes', [])
         controller: 'editProfileNameCtrl'
       })
 
+    .state('editProfileYearGoal', {
+        url: '/editProfileYearGoal',
+        templateUrl: 'templates/editProfileYearGoal.html',
+        controller: 'editProfileYearGoalCtrl'
+      })
+
     .state('editProfileCoach', {
         url: '/editProfileCoach',
         templateUrl: 'templates/editProfileCoach.html',
