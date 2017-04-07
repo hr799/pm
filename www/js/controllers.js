@@ -449,6 +449,11 @@ function ($scope, $stateParams, $ionicActionSheet, $timeout,$cordovaCamera, $cor
             $scope.user = {};
         }
 
+        $scope.goToCoacheeProfile = function(id){
+            window.tmpCoacheeId = id;
+            location.href = "#/coacheeProfile";
+        }
+
         $scope.show = function() {
 
             // Show the action sheet
@@ -580,6 +585,26 @@ function ($scope, $stateParams) {
         });
     }
 
+}])
+
+
+.controller('coacheeProfileCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+// You can include any angular dependencies as parameters for this function
+// TIP: Access Route Parameters for your page via $stateParams.parameterName
+function ($scope, $stateParams) {
+    $scope.$on('$ionicView.afterEnter', function() {
+        var id = window.tmpCoacheeId;
+        firebase.database().ref('users/' + id).once('value').then(function(snapshot){
+            if(snapshot.val()){
+                $scope.tmpCoachee = snapshot.val();
+                $scope.tmpCoachee.yearGoal = $scope.tmpCoachee.yearGoal? $scope.tmpCoachee.yearGoal:"No year goal information found";
+                $scope.$apply();
+                // if(tmpCoachee.yearGoal == null){
+                //     tmpCoachee.yearGoal = "Coachee has not set year goal";
+                // }
+            }
+        });
+    });
 }])
 
 

@@ -70,7 +70,7 @@
 					<img src="img/right.png" style="width: 20px; height: 20px; position: absolute; right: 10px; top: 15px;">
 				</div>
 				<div ng-repeat="(key, item) in coacheeArr" style="border-bottom: 1px solid lightgray;">
-					<p style="font-size: 15px;padding-left:20px;">{{item.name}}</p>
+					<a ng-click="goToCoacheeProfile(item.id)"><p style="font-size: 15px;padding-left:20px;">{{item.name}}</p></a>
 				</div>
 			</div>
 
