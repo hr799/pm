@@ -99,6 +99,18 @@ angular.module('app.routes', [])
         controller: 'addFeedbackCtrl'
       })
 
+    .state('coacheeProjectDetail', {
+        url: '/coacheeProjectDetail',
+        templateUrl: 'templates/coacheeProjectDetail.html',
+        controller: 'coacheeProjectDetailCtrl'
+      })
+
+    .state('coacheeProject', {
+        url: '/coacheeProject',
+        templateUrl: 'templates/coacheeProject.html',
+        controller: 'coacheeProjectCtrl'
+      })
+
     .state('about', {
         url: '/about',
         templateUrl: 'templates/about.html',

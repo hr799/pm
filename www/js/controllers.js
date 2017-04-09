@@ -352,6 +352,39 @@ function ($scope, $stateParams, $ionicPopup) {
     });
 }])
 
+
+.controller('coacheeProjectCtrl', ['$scope', '$stateParams', '$ionicPopup', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+// You can include any angular dependencies as parameters for this function
+// TIP: Access Route Parameters for your page via $stateParams.parameterName
+function ($scope, $stateParams, $ionicPopup) {
+    $scope.$on('$ionicView.afterEnter', function() {
+        var id = window.tmpCoacheeId;
+        firebase.database().ref('projects/' + id).once('value').then(function(snapshot){
+            if(snapshot.val()){
+                $scope.coacheeProjectList = snapshot.val();
+                $scope.$apply();
+            }
+        });
+
+        $scope.goToCoacheeProject = function(id){
+            var coacheeProject = $scope.coacheeProjectList[id];
+            coacheeProject.id = id;
+            localStorage.setItem("tmpCoacheeProject", JSON.stringify(coacheeProject));
+            location.href = "#/coacheeProjectDetail";
+        };
+    });
+}])
+
+.controller('coacheeProjectDetailCtrl', ['$scope', '$stateParams', '$ionicPopup', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+// You can include any angular dependencies as parameters for this function
+// TIP: Access Route Parameters for your page via $stateParams.parameterName
+function ($scope, $stateParams, $ionicPopup) {
+    $scope.$on('$ionicView.afterEnter', function() {
+        $scope.displayCoacheeProject = JSON.parse(localStorage.getItem('tmpCoacheeProject'));
+    });
+}])
+
+
 .controller('addDiaryCtrl', ['$scope', '$stateParams', '$ionicPopup', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
@@ -594,6 +627,7 @@ function ($scope, $stateParams) {
 function ($scope, $stateParams) {
     $scope.$on('$ionicView.afterEnter', function() {
         var id = window.tmpCoacheeId;
+
         firebase.database().ref('users/' + id).once('value').then(function(snapshot){
             if(snapshot.val()){
                 $scope.tmpCoachee = snapshot.val();
@@ -604,6 +638,10 @@ function ($scope, $stateParams) {
                 // }
             }
         });
+
+        $scope.goToCoacheeProject = function(){
+            location.href = "#/coacheeProject";
+        }
     });
 }])
 
