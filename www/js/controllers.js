@@ -381,6 +381,8 @@ function ($scope, $stateParams, $ionicPopup) {
 function ($scope, $stateParams, $ionicPopup) {
     $scope.$on('$ionicView.afterEnter', function() {
         $scope.displayCoacheeProject = JSON.parse(localStorage.getItem('tmpCoacheeProject'));
+        var date = new Date($scope.displayCoacheeProject.startDate);
+        $scope.displayCoacheeProject.startDate = date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear();
     });
 }])
 
