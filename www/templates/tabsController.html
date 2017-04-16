@@ -6,8 +6,19 @@
     <ion-tab title="Project" icon="ion-settings" href="#/tab/project" id="tabsController-tab2">
       <ion-nav-view name="project"></ion-nav-view>
     </ion-tab>
-    <ion-tab title="Notification" icon="ion-ios-list-outline" href="#/tab/notification" id="tabsController-tab3">
+    <ion-tab title="Notification"  badge="1" style="badge-assertive" icon="ion-ios-list-outline" href="#/tab/notification" id="tabsController-tab3">
       <ion-nav-view name="notification"></ion-nav-view>
     </ion-tab>
   </ion-tabs>
 </ion-view>
+
+<style type="text/css">
+  .badge{
+    background: red !important;
+    color:red !important; 
+    width: 15px !important;
+    height: 15px !important;
+    border-radius: 7.5px !important;
+    font-size: 0px !important;
+  }
+</style>

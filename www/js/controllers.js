@@ -293,6 +293,65 @@ function ($scope, $stateParams) {
 }])
 
 
+.controller('coacheeDiaryDetailCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+// You can include any angular dependencies as parameters for this function
+// TIP: Access Route Parameters for your page via $stateParams.parameterName
+function ($scope, $stateParams) {
+    $scope.$on('$ionicView.afterEnter', function() {
+        $scope.tmpCoacheeDiaryDetail = JSON.parse(localStorage.getItem('tmpCoacheeDiaryDetail'));
+    });
+
+}])
+
+
+.controller('coacheeYearGoalCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+// You can include any angular dependencies as parameters for this function
+// TIP: Access Route Parameters for your page via $stateParams.parameterName
+function ($scope, $stateParams) {
+    $scope.$on('$ionicView.afterEnter', function() {
+        var id = window.tmpCoacheeId;
+        firebase.database().ref('users/' + id).once('value').then(function(snapshot){
+            if(snapshot.val()){
+                $scope.tmpCoachee = snapshot.val();
+                $scope.$apply();
+            }
+        })
+    });
+
+}])
+
+
+.controller('coacheeDiariesCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+// You can include any angular dependencies as parameters for this function
+// TIP: Access Route Parameters for your page via $stateParams.parameterName
+function ($scope, $stateParams) {
+    $scope.$on('$ionicView.afterEnter', function() {
+        $scope.coacheeDiariesList = JSON.parse(localStorage.getItem('tmpCoacheeProject'));
+        //var userId = firebase.auth().currentUser.uid;
+        var tmpCoacheeProjectId = $scope.coacheeDiariesList.id;
+        firebase.database().ref('diaries/' + tmpCoacheeProjectId).once('value').then(function(snapshot){
+            $scope.tmpCoacheeDiaryList = snapshot.val();
+            for (var key in $scope.tmpCoacheeDiaryList) {
+                var item = $scope.tmpCoacheeDiaryList[key];
+                var date = new Date(item.date);
+                item.date = date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear();   
+            }
+            $scope.$apply();
+        })
+        
+    });
+
+    $scope.goToCoacheeDiaryDetail = function(id){
+        var coacheeDiaryDetail = $scope.tmpCoacheeDiaryList[id];
+        coacheeDiaryDetail.id = id;
+        localStorage.setItem("tmpCoacheeDiaryDetail", JSON.stringify(coacheeDiaryDetail));
+        location.href = "#/coacheeDiaryDetail";
+
+    }
+
+}])
+
+
 .controller('diariesCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
@@ -530,6 +589,7 @@ function ($scope, $stateParams, $ionicActionSheet, $timeout,$cordovaCamera, $cor
                             //save profile image url to firebase database..
                             var user = JSON.parse(localStorage.getItem("user"));
                             user.imageUrl = profileImgURL;
+                            $scope.user.imageUrl = profileImgURL;
                             storageRef('users/' + userId).set($scope.user).then(function(res){
                                 console.log(res);
                                  //update local user info..

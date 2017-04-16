@@ -99,6 +99,12 @@ angular.module('app.routes', [])
         controller: 'addFeedbackCtrl'
       })
 
+    .state('coacheeDiaries', {
+        url: '/coacheeDiaries',
+        templateUrl: 'templates/coacheeDiaries.html',
+        controller: 'coacheeDiariesCtrl'
+      })
+
     .state('coacheeProjectDetail', {
         url: '/coacheeProjectDetail',
         templateUrl: 'templates/coacheeProjectDetail.html',
@@ -115,6 +121,19 @@ angular.module('app.routes', [])
         url: '/about',
         templateUrl: 'templates/about.html',
         controller: 'aboutCtrl'
+      })
+
+    .state('coacheeYearGoal', {
+        url: '/coacheeYearGoal',
+        templateUrl: 'templates/coacheeYearGoal.html',
+        controller: 'coacheeYearGoalCtrl'
+      })
+
+
+      .state('coacheeDiaryDetail', {
+        url: '/coacheeDiaryDetail',
+        templateUrl: 'templates/coacheeDiaryDetail.html',
+        controller: 'coacheeDiaryDetailCtrl'
       })
 
     /*.state('notification', {
