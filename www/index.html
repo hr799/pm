@@ -3,10 +3,11 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <meta name="format-detection" content="telephone=no">
     <title></title>
 
     <style type="text/css">
-      .platform-ios .manual-ios-statusbar-padding{
+      .platform-ios .manual-ios-statusbar-padding{d
         padding-top:20px;
       }
       .manual-remove-top-padding{
@@ -91,7 +92,7 @@
       <ion-content ng-controller="menuCtrl" padding="false" class="side-menu-left has-header ">
         
         <div>
-          <img src="img/billgate.jpg" style="display: block; width: 50%; height: auto; margin-left: auto; margin-right: auto;">
+          <img ng-src='{{menuUserImageUrl}}' style="display: block; width: 50%; height: auto; margin-left: auto; margin-right: auto;border-radius: 50%; margin-bottom:30px; ">
         </div>
         
         <ion-list >

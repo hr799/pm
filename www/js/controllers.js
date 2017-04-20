@@ -1,9 +1,9 @@
 angular.module('app.controllers', [])
   
-.controller('homeCtrl', ['$scope', '$stateParams', '$ionicPopup', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('homeCtrl', ['$scope', '$stateParams', '$ionicPopup', '$ionicSlideBoxDelegate', '$rootScope',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams, $ionicPopup) {
+function ($scope, $stateParams, $ionicPopup, $ionicSlideBoxDelegate, $rootScope) {
     var pages = "#/tab/home+#/tab/notification+#/tab/project";
     $scope.$on('$ionicView.afterEnter', function() {
         if (pages.indexOf(location.hash) > -1) {
@@ -17,22 +17,60 @@ function ($scope, $stateParams, $ionicPopup) {
             }
         }
 
-        $scope.userList = [];
-        firebase.database().ref('users/').once('value').then(function(snapshot){
-            if(snapshot.val()){
-                var userList = snapshot.val();
-                for (var k in userList){
-                    var item = userList[k];
-                    $scope.userList.push(item);
-                }
-            }
-        });
+
+
+        // $scope.userList = [];
+        // firebase.database().ref('users/').once('value').then(function(snapshot){
+        //     if(snapshot.val()){
+        //         var userList = snapshot.val();
+        //         for (var k in userList){
+        //             var item = userList[k];
+        //             $scope.userList.push(item);
+        //         }
+        //     }
+        // });
+
+        getBanner();
+        getArticle();
+        getNotificationNum();
+        $rootScope.menuUserImageUrl = $scope.user.imageUrl;
     });
     $scope.$on('$ionicView.afterLeave', function() {
         if (pages.indexOf(location.hash) > -1) return;
         var tabs =document.getElementsByTagName('ion-tabs');
         angular.element(tabs).addClass("tabs-item-hide");
     });
+
+    $scope.bannerList = [];
+    var getBanner = function() {
+        firebase.database().ref('banner/').once('value').then(function(snapshot){
+            if(snapshot.val()){
+                $scope.bannerList = snapshot.val();
+                $ionicSlideBoxDelegate.update();
+                $scope.$apply();
+            }
+        });
+    };
+
+    var getArticle = function() {
+        firebase.database().ref('article/').once('value').then(function(snapshot){
+            if(snapshot.val()){
+                $scope.articleList = snapshot.val();
+                $scope.$apply();
+            }
+        });
+    };
+
+    var getNotificationNum = function() {
+        firebase.database().ref('notification/' + $scope.user.id).once('value').then(function(snapshot){
+            if(snapshot.val()){
+                $rootScope.badgeNum = 1;
+            } else {
+                $rootScope.badgeNum = 0; 
+            }
+        });
+    };
+
 }])
    
 .controller('projectCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
@@ -74,10 +112,10 @@ function ($scope, $stateParams) {
 
 
 //add notificationCtrl
-.controller('notificationCtrl', ['$scope', '$stateParams', '$ionicPopup', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('notificationCtrl', ['$scope', '$stateParams', '$ionicPopup', '$rootScope', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams, $ionicPopup) {
+function ($scope, $stateParams, $ionicPopup, $rootScope) {
     var pages = "#/tab/home+#/tab/notification+#/tab/project";
     $scope.$on('$ionicView.afterEnter', function() {
         if (pages.indexOf(location.hash) > -1) {
@@ -94,6 +132,9 @@ function ($scope, $stateParams, $ionicPopup) {
 
     $scope.user = JSON.parse(localStorage.getItem('user'));
     $scope.getNotificationList = function() {
+        if (!$scope.user) {
+            $scope.user = JSON.parse(localStorage.getItem('user'));
+        }
         firebase.database().ref('notification/' + $scope.user.id).once('value').then(function(snapshot){
             if (snapshot.val) {
                 var tmpList = snapshot.val();
@@ -104,6 +145,12 @@ function ($scope, $stateParams, $ionicPopup) {
                     $scope.msgList.push(obj);
                 }
                 $scope.$apply();
+
+                if ($scope.msgList.length) {
+                    $rootScope.badgeNum = 1; 
+                } else {
+                    $rootScope.badgeNum = 0; 
+                }
             };
             $scope.$broadcast('scroll.refreshComplete');
         });
@@ -510,10 +557,10 @@ function ($scope, $stateParams, $ionicPopup) {
 
 
 //add my profile controller.
-.controller('myProfileCtrl', ['$scope', '$stateParams','$ionicActionSheet', '$timeout','$cordovaCamera', '$cordovaImagePicker',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+.controller('myProfileCtrl', ['$scope', '$stateParams','$ionicActionSheet', '$timeout','$cordovaCamera', '$cordovaImagePicker', '$rootScope',// The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams, $ionicActionSheet, $timeout,$cordovaCamera, $cordovaImagePicker) {
+function ($scope, $stateParams, $ionicActionSheet, $timeout,$cordovaCamera, $cordovaImagePicker, $rootScope) {
     $scope.$on('$ionicView.afterEnter', function(){
         $scope.coacheeArr = [];
         var userId = firebase.auth().currentUser.uid;
@@ -554,7 +601,7 @@ function ($scope, $stateParams, $ionicActionSheet, $timeout,$cordovaCamera, $cor
             var hideSheet = $ionicActionSheet.show({
             buttons: [
             { text: 'Take photo' },
-            { text: 'Choose from album' }
+            //{ text: 'Choose from album' }
             ],
             
             titleText: 'Modify profile picture',
@@ -567,13 +614,13 @@ function ($scope, $stateParams, $ionicActionSheet, $timeout,$cordovaCamera, $cor
                     
                     // 
                     var options = {
-                    quality: 70,
+                    quality: 100,
                     destinationType: Camera.DestinationType.DATA_URL,
                     sourceType: Camera.PictureSourceType.CAMERA,
                     allowEdit: true,
                     encodingType: Camera.EncodingType.JPEG,
-                    targetWidth: 100,
-                    targetHeight: 100,
+                    targetWidth: 200,
+                    targetHeight: 200,
                     popoverOptions: CameraPopoverOptions,
                     saveToPhotoAlbum: false,
                     correctOrientation:true
@@ -585,15 +632,12 @@ function ($scope, $stateParams, $ionicActionSheet, $timeout,$cordovaCamera, $cor
                         imgRef.putString(imageData, 'base64').on('state_changed', function(snapshot){
                             console.log('Uploaded a base64 string!');
                             var profileImgURL = snapshot.downloadURL;
-
+                            if (!profileImgURL) return;
                             //save profile image url to firebase database..
-                            var user = JSON.parse(localStorage.getItem("user"));
-                            user.imageUrl = profileImgURL;
-                            $scope.user.imageUrl = profileImgURL;
-                            storageRef('users/' + userId).set($scope.user).then(function(res){
-                                console.log(res);
-                                 //update local user info..
-                                localStorage.setItem("user", stringify(user));
+                            $rootScope.menuUserImageUrl = $scope.user.imageUrl = profileImgURL;
+                            firebase.database().ref('users/' + userId).set($scope.user).then(function(res){
+                                hideSheet();
+                                localStorage.setItem("user", stringify($scope.user));
                             });
                         }, function(error){
                             //error code here
@@ -601,7 +645,7 @@ function ($scope, $stateParams, $ionicActionSheet, $timeout,$cordovaCamera, $cor
                         //success
                         }) 
                     });
-                } else if (index==1) {
+                } else if (index==1) { //code in below section will not run as index ==1 has been commented above.
                     var options = {
                     maximumImagesCount: 1,
                     width: 800,
@@ -613,13 +657,13 @@ function ($scope, $stateParams, $ionicActionSheet, $timeout,$cordovaCamera, $cor
                         console.log('Image URI: ' + results[0]);
                         imgRef.put(results[0]).on('state_changed', function(snapshot){
                             var profileImgURL = snapshot.downloadURL;
+                            if (!profileImgURL) return;
                             //save profile image url to firebase database..
-                            var user = JSON.parse(localStorage.getItem("user"));
-                            user.imageUrl = profileImgURL;
-                            storageRef('users/' + userId).set($scope.user).then(function(res){
+                            $scope.user.imageUrl = profileImgURL;
+                            firebase.database().ref('users/' + userId).set($scope.user).then(function(res){
                                 console.log(res);
                                  //update local user info..
-                                localStorage.setItem("user", stringify(user));
+                                localStorage.setItem("user", stringify($scope.user));
                             });
                         }, function(error){
                             //error code here
