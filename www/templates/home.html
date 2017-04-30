@@ -15,13 +15,11 @@
     </ion-slide-box>
 
   	<div class="list" style="position: relative;">
-      <div style="height: 80px; width: 100%; padding: 5px; position: relative;" ng-repeat="item in articleList">
+      <div style="height: 80px; width: 100%; padding: 5px; position: relative;" ng-repeat="item in articleList" ng-click="viewArticleDetail(item)">
         <div style="background: white; width: 100%; height: 100%; border-radius: 8px;">
         <img ng-src="{{item.thumb}}" style="position: absolute; top:16px; left:10px;width:46px;height:46px; border-radius: 44px;">
         <h2 style="left:63px; margin:0px; top:11px; text-overflow: ellipsis; position:absolute; font-size: 15px; width:50%; white-space: nowrap; overflow: hidden">{{item.title}}</h2>
-        <!--<p style="position:absolute; right: 9px; margin: 0;top:8px; color: lightgray">20:30</p>-->
-        <p style="left: 63px; position: absolute; top:30px;width:70%; ">{{item.detail}}</p>
-        <!-- <p style="position: absolute; left:63px; top: 50px; width:70%; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; color: lightgray;">Project: Performance Management</p> -->
+        <p style="left: 63px; position: absolute; top:30px;width:70%; word-wrap: break-word; overflow: hidden;max-height: 32px;line-height: 16px;">{{item.detail}}</p>
         </div>
       </div>
     </div>

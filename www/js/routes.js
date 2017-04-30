@@ -21,6 +21,13 @@ angular.module('app.routes', [])
       }
     }
   })
+
+  .state('articleDetail', {
+        url: '/articleDetail',
+        templateUrl: 'templates/articleDetail.html',
+        controller: 'articleDetailCtrl'
+      })
+
   .state('tab.project', {
     url: '/project',
     views: {
