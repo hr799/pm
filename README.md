@@ -1,5 +1,5 @@
 
-<div style="text-align:center"><img src ="http://i1268.photobucket.com/albums/jj574/henian414/icon-603x_zpsic6j41e0.png"/></div>
+<div align="center"><img src ="http://i1268.photobucket.com/albums/jj574/henian414/icon-603x_zpsic6j41e0.png"/></div>
 
 # Performance Management(PM)
 ---
@@ -58,7 +58,12 @@ The following is a step-by-step guide to build the Performance Management applic
   Clone and navigate to the projects directory and run
 	`ionic serve`
 
+ 
+## License
 
+[MIT](http://opensource.org/licenses/MIT)
+
+Copyright 2016-present, Aaron He
 
 
 
