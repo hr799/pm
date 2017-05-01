@@ -1,14 +1,14 @@
 
-<div align="center"><img src ="http://i1268.photobucket.com/albums/jj574/henian414/icon-603x_zpsic6j41e0.png"/></div>
+<div align="center"><img src ="http://i1268.photobucket.com/albums/jj574/henian414/icon-603x_zpsic6j41e0.png" height="100" width="100"></div><br><br><br>
 
 # Performance Management(PM)
----
+
 Source code for the performance management application. 
 This application is based on the “Kōrero” framework employed by Deloitte.
 
 
 ## Description
----
+
 The Performance Management application aims to carry over the principles of Kōrero to a technology platform, available
 on iOS, Android and Web.  
 
@@ -18,7 +18,7 @@ by viewing notes attached to a particular project, known as a "diary". Diaries a
 an understanding of a coachee's thought process and approach on a project. 
 
 ## Features
----
+
 * The PM application contains a web admin panel where an administrator may add, edit and delete articles, which are
 broadcasted to all users on the home screen of the application.
 * Users are able to create projects and diaries attached to projects.
@@ -32,7 +32,7 @@ Users can accept or decline said request.
 
 ## Build Guide . 
 
----
+
 The following is a step-by-step guide to build the Performance Management application.
 ### Pre-requisites   
 
