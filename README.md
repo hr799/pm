@@ -27,10 +27,12 @@ Users can accept or decline said request.
 * Users can record their year end goals via their profile.
 
 
-## Build Guide
+## Build Guide . 
+
 ---
 The following is a step-by-step guide to build the Performance Management application.
-### Pre-requisites 
+### Pre-requisites   
+
 *	**Node.js**
 Includes package manager (NPM)
 Downloadable from https://nodejs.org/en/download/
