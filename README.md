@@ -1,4 +1,4 @@
-![Remote Image 1](http://i1268.photobucket.com/albums/jj574/henian414/icon-603x_zpsic6j41e0.png)
+![Remote Image 1](http://i1268.photobucket.com/albums/jj574/henian414/icon-603x_zpsic6j41e0.png?classes=float-center)
 
 
 # Performance Management(PM)
