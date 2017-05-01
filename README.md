@@ -2,7 +2,9 @@
 <div align="center"><img src ="http://i1268.photobucket.com/albums/jj574/henian414/icon-603x_zpsic6j41e0.png" height="100" width="100"></div><br><br>
 <p align="center">
   <a href="https://circleci.com/gh/vuejs/vue/tree/dev"><img src="https://img.shields.io/circleci/project/vuejs/vue/dev.svg" alt="Build Status"></a> 
+  <a href="https://www.npmjs.com/package/vue"><img src="https://img.shields.io/badge/Ionic-1.3.2-brightgreen.svg" alt="License"></a>
   <a href="https://www.npmjs.com/package/vue"><img src="https://img.shields.io/npm/l/vue.svg" alt="License"></a>
+  <a href="https://www.npmjs.com/package/vue"><img src="https://img.shields.io/badge/Ionic-2.2.1-brightgreen.svg" alt="License"></a>
   <br>
 </p>
 
