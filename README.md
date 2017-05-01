@@ -1,5 +1,5 @@
-![Remote Image 1](http://i1268.photobucket.com/albums/jj574/henian414/icon-603x_zpsic6j41e0.png?classes=align="middle")
 
+<div style="text-align:center"><img src ="http://i1268.photobucket.com/albums/jj574/henian414/icon-603x_zpsic6j41e0.png"/></div>
 
 # Performance Management(PM)
 ---
