@@ -33,22 +33,26 @@ Users can accept or decline said request.
 The following is a step-by-step guide to build the Performance Management application.
 ### Pre-requisites   
 
-*	**Node.js**
-Includes package manager (NPM)
-Downloadable from https://nodejs.org/en/download/
+*	**Node.js**.  
 
-*	**Cordova**
-After NodeJS installation, Install Cordova via cmd
+ Includes package manager (NPM)
+ Downloadable from https://nodejs.org/en/download/
+
+*	**Cordova**.   
+
+  After NodeJS installation, Install Cordova via cmd
 	`npm install -g cordova`
 
-*	**Java Development Kit 8 (JDK)**
-Downloadable from http://www.oracle.com/technetwork/java/javase/downloads/index.html
+*	**Java Development Kit 8 (JDK)**.  
 
-*	**Ionic**
-After NodeJS installation, Install ionic via cmd
+  Downloadable from http://www.oracle.com/technetwork/java/javase/downloads/index.html
+
+*	**Ionic**.  
+
+  After NodeJS installation, Install ionic via cmd
 	`npm install -g cordova ionic`
 
-*	Clone and navigate to the projects directory and run
+  Clone and navigate to the projects directory and run
 	`ionic serve`
 
 
