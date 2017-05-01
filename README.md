@@ -1,3 +1,5 @@
+http://i1268.photobucket.com/albums/jj574/henian414/Korero_zpsmbmawm5a.png
+
 # Performance Management(PM)
 ---
 Source code for the performance management application. 
