@@ -1,4 +1,4 @@
-![Remote Image 1](http://i1268.photobucket.com/albums/jj574/henian414/Korero_zpsmbmawm5a.png?cropResize=400,400)
+![Remote Image 1](http://i1268.photobucket.com/albums/jj574/henian414/icon-603x_zpsic6j41e0.png)
 
 
 # Performance Management(PM)
