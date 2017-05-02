@@ -41,12 +41,12 @@
 				</div>
 			</div>
 
-			<div style="height: 80px; width: 100%; border-bottom: 1px solid lightgray;position: relative;" ui-sref="editProfileYearGoal">
+			<div style="height: 50px; width: 100%; border-bottom: 1px solid lightgray;position: relative;" ui-sref="editProfileYearGoal">
 				<div style="width:30%; height: 100%; float: left;">
 					<h3 style="margin-top: 15px; font-size: 15px; font-weight: bold;">Year Goal</h3>
 				</div>
 				<div style="width: 70%; height:100%; float: right; ">
-					<p ng-model="name" id="yearGoal" style="font-size: 15px; margin-top: 15px; text-align: left; margin-right: 35px;">{{user.yearGoal}}</p>
+					<p ng-model="name" id="yearGoal" style="font-size: 15px; margin-top: 15px; text-align: left; margin-right: 35px; text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">{{user.yearGoal}}</p>
 					<img src="img/right.png" style="width: 20px; height: 20px; position: absolute; right: 10px; top: 15px;">
 				</div>
 			</div>
