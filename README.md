@@ -72,7 +72,7 @@ The following is a step-by-step guide to build the Performance Management applic
 
 [MIT](http://opensource.org/licenses/MIT)
 
-Copyright 2016-present, Aaron He
+Copyright 2016-present, Team Performance Management@AUT
 
 
 
