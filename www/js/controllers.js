@@ -319,8 +319,11 @@ function ($scope, $stateParams, $ionicPopup, $rootScope) {
         $scope.user.title = title;
         $scope.user.type = "Comfirm";
         firebase.database().ref('notification/' + user.id).push().set($scope.user, function(res){
-            alert("A comfirm message has sent to the target.");   
-
+            //alert("A comfirm message has sent to the target.");   
+            $ionicPopup.alert({
+                    title:'confirmation Sent',
+                    template:'message has sent to the target.'
+                })
         });
     }
 
@@ -798,7 +801,11 @@ function ($scope, $stateParams) {
         }
 
         firebase.database().ref('notification/' + coach.id).push().set($scope.user, function(res){
-            alert("A message has sent to the coach.");   
+            //alert("A message has sent to the coach.");   
+            $ionicPopup.alert({
+                    title:'confirmation Sent',
+                    template:'message has sent to the coach.'
+                })
             location.href="#/myProfile";
         });
     }
@@ -881,7 +888,11 @@ function ($scope, $stateParams, $http) {
         $scope.user = JSON.parse(localStorage.getItem("user"));
         $scope.user.type = "Ask Coachee";
         firebase.database().ref('notification/' + user.id).push().set($scope.user, function(res){
-            alert("A message has sent to " + user.name + ".");   
+            //alert("A message has sent to " + user.name + ".");   
+            $ionicPopup.alert({
+                    title:'confirmation Sent',
+                    template:'"A message has sent to " + user.name + "."'
+                })
         });
     }
 }])
