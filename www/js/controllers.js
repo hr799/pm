@@ -312,7 +312,7 @@ function ($scope, $stateParams, $ionicPopup, $rootScope) {
     var sendNotification = function(user, isAddCoachee) {
         var title = "";
         if (isAddCoachee) {
-            title = user.name + " has added.";
+            title = user.name + " has been added as coachee .";
         } else {
             title = user.name + " has been added.";
         };
