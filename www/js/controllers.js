@@ -176,7 +176,7 @@ function ($scope, $stateParams, $ionicPopup, $rootScope) {
             // Receieve Message From The Coachee.
             var confirmPopup = $ionicPopup.confirm({
                 title: 'Comfirm New Coachee',
-                template: object.name + ' has asked you to be his coach',
+                template: object.name + ' has asked you to be their coach',
                 okText: "Accept",
                 cancelText: "Decline"
                 //template: 'Are you sure to add ' + object.name + ' to be your coachee?'
@@ -192,7 +192,7 @@ function ($scope, $stateParams, $ionicPopup, $rootScope) {
             // Receieve Message From The Coach.
             var confirmPopup = $ionicPopup.confirm({
                 title: 'Comfirm New Coach',
-                template: object.name + ' has asked you to be his coachee',
+                template: object.name + ' has asked you to be their coachee',
                 okText: "Accept",
                 canceltext: "Decline"
                 //template: 'Are you sure to add ' + object.name + ' to be your coach?'
@@ -322,7 +322,7 @@ function ($scope, $stateParams, $ionicPopup, $rootScope) {
             //alert("A comfirm message has sent to the target.");   
             $ionicPopup.alert({
                     title:'confirmation Sent',
-                    template:'message has sent to the target.'
+                    template:'confirmation message sent'
                 })
         });
     }
@@ -804,7 +804,7 @@ function ($scope, $stateParams) {
             //alert("A message has sent to the coach.");   
             $ionicPopup.alert({
                     title:'confirmation Sent',
-                    template:'message has sent to the coach.'
+                    template:'message has been sent to the coach.'
                 })
             location.href="#/myProfile";
         });
@@ -891,7 +891,7 @@ function ($scope, $stateParams, $http) {
             //alert("A message has sent to " + user.name + ".");   
             $ionicPopup.alert({
                     title:'confirmation Sent',
-                    template:'"A message has sent to " + user.name + "."'
+                    template:'"A message has been sent to " + user.name + "."'
                 })
         });
     }
