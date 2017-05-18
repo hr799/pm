@@ -66,6 +66,8 @@ The following is a step-by-step guide to build the Performance Management applic
 
   Clone and navigate to the projects directory and run
 	`ionic serve`
+  
+### Deploy  
 
 *	**Deploy to Android**.
 
