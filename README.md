@@ -67,7 +67,15 @@ The following is a step-by-step guide to build the Performance Management applic
   Clone and navigate to the projects directory and run
 	`ionic serve`
 
- 
+*	**Deploy to Android**.
+  Connect Android device to PC using USB cable
+  `ionic build android`
+  `ionic run android`
+  
+  *	**Deploy to iOS**.
+  Connect iOS device to PC using lightning cable
+  `ionic build ios`
+  run app from Xcode
 ## License
 
 [MIT](http://opensource.org/licenses/MIT)
