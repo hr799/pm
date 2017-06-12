@@ -1,0 +1,21 @@
+<ion-header-bar align-title="center" class="bar-stable">
+    <div class="buttons">
+        <button class="button button-icon button-clear ion-ios-arrow-back" ng-click="$ionicGoBack()"></button>
+    </div>
+    <div class="h1 title login-title" >Article Detail</div>
+    
+</ion-header-bar>
+
+
+<ion-view title="Article Detail" >
+  <ion-content class="has-header">
+  	<div class="card">
+      <h4 style="    padding: 20px; margin-top: 0px; margin-bottom: 0px;">{{tmpArticle.title}}</h4>
+      <div class="item item-body">
+        <img class="full-image" ng-src="{{tmpArticle.thumb}}">
+        <p>{{tmpArticle.detail}}</p>
+      </div>
+
+    </div>
+  </ion-content>
+</ion-view>

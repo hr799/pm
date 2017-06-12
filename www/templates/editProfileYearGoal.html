@@ -1,0 +1,19 @@
+<ion-header-bar align-title="center" class="bar-stable">
+    <div class="buttons">
+        <button class="button button-icon button-clear ion-ios-arrow-back" ng-click="$ionicGoBack()"></button>
+    </div>
+
+    <div class="h1 title" >Year End Goal</div>
+    <div class="buttons">
+        <button class="button button-icon button-clear ion-checkmark" ng-click="saveYearGoal()"></button>
+    </div>
+</ion-header-bar>
+
+
+<ion-view title="Edit Year Goal">
+	<ion-content class="has-header" style="background: #f2f3f4;">
+		<div style="width:90%; height:300px; background: white; margin-top: 15px; margin-left: 15px;">
+			<textarea ng-model="user.yearGoal" type="text" style="font-size: 15px; margin-left: 15px; height:100%; margin-right: 15px; padding: 4px; position: relative;">
+		</div>	
+	</ion-content>
+</ion-view>

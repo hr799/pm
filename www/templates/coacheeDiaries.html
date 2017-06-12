@@ -1,0 +1,27 @@
+<ion-header-bar align-title="center" class="bar-stable">
+    <div class="buttons">
+        <button class="button button-icon button-clear ion-ios-arrow-back" ui-sref="coacheeProject"></button>
+    </div>
+    <div class="h1 title login-title" >Coachee's Diaries</div>
+</ion-header-bar>
+
+<ion-view>
+	<ion-content>
+		<div ng-repeat="(key, item) in tmpCoacheeDiaryList" >
+			<div class="list card" ng-click="goToCoacheeDiaryDetail(key)">
+			  <div class="item item-avatar" >
+			    <img src="img/billgate.jpg">		    
+			    <h2>{{item.title}}</h2>
+			    <p>{{item.date}}<p>
+			  </div>
+			  <div class="item item-body">		    
+			    <p>{{item.title}}</p>		    
+			  </div>
+			</div>
+		</div>
+		
+
+
+
+	</ion-content>
+</ion-view>

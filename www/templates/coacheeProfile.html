@@ -1,0 +1,47 @@
+<ion-header-bar align-title="center" class="bar-stable">
+    <div class="buttons">
+        <button class="button button-icon button-clear ion-ios-arrow-back" ui-sref="myProfile"></button>
+    </div>
+
+    <div class="h1 title" >{{tmpCoachee.name}}'s Profile</div>
+</ion-header-bar>
+
+
+<ion-view title="My Profile">
+	<ion-content class="has-header">
+		<ul class="list">
+		    
+		    <a class="item item-icon-left" href="#">
+			    <i class="icon ion-ios-person"></i>
+			    {{tmpCoachee.name}}
+			</a>
+		    <a class="item item-icon-left" href="#">
+			    <i class="icon ion-email"></i>
+			    {{tmpCoachee.email}}
+			</a>
+		    <a class="item item-icon-left" ui-sref="coacheeYearGoal">
+			    <i class="icon ion-ios-star"></i>
+			    {{tmpCoachee.yearGoal}}
+			</a>
+
+			<a class="item item-icon-left" ng-click ="goToCoacheeProject()">
+			    <i class="icon ion-ios-list"></i>
+			    View their projects
+			</a>
+
+
+		    
+		    <!-- <div class="item item-button-left item-button-right">
+		    <button class="button button-positive">
+		      <i class="icon ion-ios-list"></i>
+		    </button>
+		    Projects
+		    <button class="button button-positive">
+		      <i class="icon ion-ios-arrow-forward"></i>
+		    </button>
+		  </div> -->
+		</ul>
+	</ion-content>
+</ion-view>
+
+

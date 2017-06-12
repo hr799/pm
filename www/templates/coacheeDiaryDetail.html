@@ -1,0 +1,24 @@
+<ion-header-bar align-title="center" class="bar-stable">
+    <div class="buttons">
+        <button class="button button-icon button-clear ion-ios-arrow-back" ng-click="$ionicGoBack()"></button>
+    </div>
+    <div class="h1 title login-title" >Coachee Diary Detail</div>
+</ion-header-bar>
+
+<ion-view>
+	<ion-content>
+		<div class="card">
+		  <div class="item item-divider">
+		    {{tmpCoacheeDiaryDetail.title}}
+		  </div>
+		  <div class="item item-text-wrap">
+		    {{tmpCoacheeDiaryDetail.detail}}
+
+		  </div>
+		  <div class="item item-divider">
+		    {{tmpCoacheeDiaryDetail.date}}
+		  </div>
+		</div>
+	</ion-content>
+</ion-view>
+
